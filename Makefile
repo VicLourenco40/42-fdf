@@ -12,7 +12,8 @@
 
 NAME = fdf
 CC = cc
-CFLAGS = -Wall -Wextra -g -I $(IDIR) -I $(LFTDIR)$(IDIR) -I $(MLXDIR)
+CFLAGS = -Wall -Wextra -g $(IFLAGS)
+IFLAGS = -I $(IDIR) -I $(LFTDIR)$(IDIR) -I $(MLXDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
@@ -22,6 +23,7 @@ LFTDIR = libft/
 LFT = $(patsubst %, $(LFTDIR)%, libft.a)
 MLXDIR = minilibx/
 MLX = $(patsubst %, $(MLXDIR)%, libmlx.a)
+MLXFLAGS = -lXext -lX11
 
 .PHONY: all clean fclean re
 
@@ -38,7 +40,7 @@ fclean: clean
 re: fclean all
 
 $(NAME): $(OBJS) $(LFT) $(MLX)
-	$(CC) $(CFLAGS) -lXext -lX11 -o $@ $^
+	$(CC) $(CFLAGS) $(MLXFLAGS) -o $@ $^
 
 $(OBJS): $(ODIR)%.o: $(SDIR)%.c
 	mkdir -p $(ODIR)
