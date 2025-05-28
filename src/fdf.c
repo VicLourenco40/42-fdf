@@ -15,6 +15,19 @@
 #include <mlx.h>
 #include <stdlib.h>
 
+int	free_exit(int keycode, void **param)
+{
+	mlx_destroy_window(*param, *(param - 1));
+	mlx_destroy_display(*param);
+	free(*param);
+	exit(0);
+}
+
+int	foo(void *param)
+{
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	void	*mlx_ptr;
@@ -26,8 +39,8 @@ int	main(int argc, char **argv)
 	win_ptr = mlx_new_window(mlx_ptr, 640, 480, "fdf");
 	if (!win_ptr)
 		return (1);
-	free(ft_get_next_line(0));
-	mlx_destroy_window(mlx_ptr, win_ptr);
-	mlx_destroy_display(mlx_ptr);
-	free(mlx_ptr);
+	mlx_pixel_put(mlx_ptr, win_ptr, 8, 8, 0xFFFFFFFF);
+	mlx_loop_hook(mlx_ptr, &foo, NULL);
+	mlx_key_hook(win_ptr, &free_exit, &mlx_ptr);
+	mlx_loop(mlx_ptr);
 }
