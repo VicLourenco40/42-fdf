@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/05/27 14:28:16 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:13:07 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,37 @@
 #include <mlx.h>
 #include <stdlib.h>
 
-int	free_exit(int keycode, void **param)
+int	free_exit(t_mlx *mlx)
 {
-	mlx_destroy_window(*param, *(param - 1));
-	mlx_destroy_display(*param);
-	free(*param);
+	mlx_destroy_window(mlx->ptr, mlx->win_ptr);
+	mlx_destroy_display(mlx->ptr);
+	free(mlx->ptr);
 	exit(0);
 }
 
-int	foo(void *param)
+int	key_handler(int keycode, void *param)
+{
+	if (keycode == ESCAPE)
+		free_exit(param);
+	return (0);
+}
+
+int	loop(void)
 {
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
+	t_mlx	mlx;
 
-	mlx_ptr = mlx_init();
-	if (!mlx_ptr)
+	mlx.ptr = mlx_init();
+	if (!mlx.ptr)
 		return (1);
-	win_ptr = mlx_new_window(mlx_ptr, 640, 480, "fdf");
-	if (!win_ptr)
+	mlx.win_ptr = mlx_new_window(mlx.ptr, 640, 480, "fdf");
+	if (!mlx.win_ptr)
 		return (1);
-	mlx_pixel_put(mlx_ptr, win_ptr, 8, 8, 0xFFFFFFFF);
-	mlx_loop_hook(mlx_ptr, &foo, NULL);
-	mlx_key_hook(win_ptr, &free_exit, &mlx_ptr);
-	mlx_loop(mlx_ptr);
+	mlx_key_hook(mlx.win_ptr, &key_handler, &mlx);
+	mlx_loop_hook(mlx.ptr, &loop, NULL);
+	mlx_loop(mlx.ptr);
 }
