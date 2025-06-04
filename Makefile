@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 14:12:14 by vde-albu          #+#    #+#              #
-#    Updated: 2025/05/27 14:22:42 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/04 13:11:56 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ fclean: clean
 re: fclean all
 
 $(NAME): $(OBJS) $(LFT) $(MLX)
-	$(CC) $(CFLAGS) $(MLXFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $(MLXFLAGS) -lm -o $@ $^
 
 $(OBJS): $(ODIR)%.o: $(SDIR)%.c
 	mkdir -p $(ODIR)
