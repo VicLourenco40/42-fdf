@@ -6,15 +6,16 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/04 15:57:38 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:10:13 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <libft.h>
 #include <mlx.h>
-#include <stdlib.h>
+
 #include <math.h>
+#include <stdlib.h>
 
 int	free_exit(t_mlx *mlx)
 {
@@ -28,11 +29,6 @@ int	key_handler(int keycode, void *param)
 {
 	if (keycode == KEY_ESCAPE)
 		free_exit(param);
-	return (0);
-}
-
-int	loop(void)
-{
 	return (0);
 }
 
@@ -77,6 +73,5 @@ int	main(int argc, char **argv)
 	mlx_put_image_to_window(mlx.ptr, mlx.win_ptr, image.ptr, 0, 0);
 	mlx_destroy_image(mlx.ptr, image.ptr);
 	mlx_key_hook(mlx.win_ptr, &key_handler, &mlx);
-	mlx_loop_hook(mlx.ptr, &loop, NULL);
 	mlx_loop(mlx.ptr);
 }
