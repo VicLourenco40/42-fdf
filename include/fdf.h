@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/06 16:29:03 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 10:15:49 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
-void	parse_map(char *file, t_map *map);
+void	parse_map(const char *const file, t_map *const map);
 
 #endif

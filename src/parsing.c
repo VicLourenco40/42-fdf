@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/06 18:02:36 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 10:37:52 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-t_list	*get_file_lines(char *file)
+static t_list	*get_file_lines(const char *const file)
 {
 	const int	fd = open(file, O_RDONLY);
 	char		*line;
@@ -41,12 +41,13 @@ t_list	*get_file_lines(char *file)
 		}
 		ft_lstadd_back(&lines, node);
 	}
+	close(fd);
 	return (lines);
 }
 
-size_t	count_values(char *str, char delim)
+static int	count_values(const char *str, const char delim)
 {
-	size_t	count;
+	int		count;
 	bool	in_delim;
 
 	count = 0;
@@ -61,57 +62,67 @@ size_t	count_values(char *str, char delim)
 	return (count);
 }
 
-void	str_to_ints(char *str, char delim, int *ints)
+static void	str_to_ints(const char *str, const char delim, int *ints)
 {
 	bool	in_delim;
-	int		i;
 
 	in_delim = true;
-	i = 0;
 	while (*str)
 	{
 		if (in_delim && *str != delim)
-			ints[i++] = ft_atoi(str);
+			*ints++ = ft_atoi(str);
 		in_delim = *str == delim;
 		str++;
 	}
 }
 
-void	lines_to_map(t_list *lines, t_map *map)
+void	init_map(t_map *const map, const t_vec2 size)
 {
 	int	x;
 
-	x = 0;
-	while (x < map->size.x)
+	map->size = size;
+	map->points = ft_calloc(size.x, sizeof(int *));
+	if (!map->points)
 	{
-		str_to_ints(lines->content, ' ', map->points[x++]);
-		lines = lines->next;
+		ft_bzero(map, sizeof(t_map));
+		return ;
 	}
+	map->points[0] = ft_calloc(size.x * size.y, sizeof(int));
+	if (!map->points[0])
+	{
+		free(map->points);
+		ft_bzero(map, sizeof(t_map));
+		return ;
+	}
+	x = 0;
+	while (++x < size.x)
+		map->points[x] = map->points[x - 1] + size.y;
 }
 
-void	parse_map(char *file, t_map *map)
+void	parse_map(const char *const file, t_map *const map)
 {
 	t_list	*lines;
+	t_list	*line;
 	int		x;
 
 	lines = get_file_lines(file);
 	if (!lines)
 		return ;
-	map->size.x = ft_lstsize(lines);
-	map->size.y = count_values(lines->content, ' ');
-	map->points = ft_calloc(map->size.x, sizeof(int *));
-	if (!map->points)
-		return ;
-	map->points[0] = ft_calloc(map->size.x * map->size.y, sizeof(int));
-	if (!map->points[0])
-	{
-		free(map->points);
-		ft_lstclear(&lines, &free);
-		return ;
-	}
+	init_map(map, \
+		(t_vec2){ft_lstsize(lines), count_values(lines->content, ' ')});
 	x = 0;
+	line = lines;
 	while (++x < map->size.x)
-		map->points[x] = map->points[x - 1] + map->size.y;
-	lines_to_map(lines, map);
+	{
+		if (count_values(line->content, ' ') != map->size.y)
+		{
+			free(map->points[0]);
+			free(map->points);
+			ft_bzero(map, sizeof(t_map));
+			break ;
+		}
+		str_to_ints(line->content, ' ', map->points[x]);
+		line = line->next;
+	}
 	ft_lstclear(&lines, &free);
 }
