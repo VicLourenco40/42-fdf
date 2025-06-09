@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 13:00:25 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:18:58 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ typedef struct s_vec2
 	int	y;
 }	t_vec2;
 
+typedef struct s_vec3
+{
+	int	x;
+	int	y;
+	int	z;
+}	t_vec3;
+
+typedef struct s_vec2f
+{
+	float	x;
+	float	y;
+}	t_vec2f;
+
 typedef struct s_map
 {
 	int		**points;
@@ -39,14 +52,28 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
+typedef struct s_camera
+{
+	t_vec2	position;
+	t_vec2f	rotation;
+	float	zoom;
+	float	height_scale;
+	t_vec2	**points;
+	t_image	image;
+}	t_camera;
+
 typedef struct s_mlx
 {
 	void	*ptr;
 	void	*win_ptr;
-	t_image	image;
 }	t_mlx;
 
 void	parse_map(const char *const file, t_map *const map);
 void	init_mlx(t_mlx *const mlx);
+void	init_camera(t_camera *const camera, void *mlx, t_vec2 size);
+void	put_image_pixel(t_image *const image, const t_vec2 pos);
+void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2);
+void	clear_image(t_image *const image);
+void	project_map(t_map *map, t_camera *camera, t_mlx *mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 13:01:06 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:40:04 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,8 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 	}
 }
 
-static void	init_map(t_map *const map, const t_vec2 size)
+static void	init_map(t_map *const map, t_vec2 size)
 {
-	int	x;
-
 	map->size = size;
 	map->points = ft_calloc(size.x, sizeof(int *));
 	if (!map->points)
@@ -94,9 +92,8 @@ static void	init_map(t_map *const map, const t_vec2 size)
 		ft_bzero(map, sizeof(t_map));
 		return ;
 	}
-	x = 0;
-	while (++x < size.x)
-		map->points[x] = map->points[x - 1] + size.y;
+	while (--size.x)
+		map->points[size.x] = map->points[0] + (size.x * size.y);
 }
 
 void	parse_map(const char *const file, t_map *const map)
