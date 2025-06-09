@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 10:15:49 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:46:08 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ typedef struct s_map
 	t_vec2	size;
 }	t_map;
 
-typedef struct s_mlx
-{
-	void	*ptr;
-	void	*win_ptr;
-}	t_mlx;
-
 typedef struct s_image
 {
 	void	*ptr;
@@ -44,6 +38,13 @@ typedef struct s_image
 	int		color_depth;
 	int		endian;
 }	t_image;
+
+typedef struct s_mlx
+{
+	void	*ptr;
+	void	*win_ptr;
+	t_image	image;
+}	t_mlx;
 
 void	parse_map(const char *const file, t_map *const map);
 
