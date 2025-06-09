@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 10:37:52 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:26:14 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	count_values(const char *str, const char delim)
 
 	count = 0;
 	in_delim = true;
-	while (*str)
+	while (*str && *str != '\n')
 	{
 		if (in_delim && *str != delim)
 			count++;
@@ -67,7 +67,7 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 	bool	in_delim;
 
 	in_delim = true;
-	while (*str)
+	while (*str && *str != '\n')
 	{
 		if (in_delim && *str != delim)
 			*ints++ = ft_atoi(str);
@@ -105,12 +105,13 @@ void	parse_map(const char *const file, t_map *const map)
 	t_list	*line;
 	int		x;
 
+	ft_bzero(map, sizeof(t_map));
 	lines = get_file_lines(file);
 	if (!lines)
 		return ;
 	init_map(map, \
 		(t_vec2){ft_lstsize(lines), count_values(lines->content, ' ')});
-	x = 0;
+	x = -1;
 	line = lines;
 	while (++x < map->size.x)
 	{

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/06 18:01:33 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:31:01 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ int	main(int argc, char **argv)
 	t_mlx	mlx;
 	t_image	image;
 
-	parse_map("./test_maps/42.fdf", &map);
+	if (argc < 2)
+		return (1);
+	parse_map(argv[1], &map);
 	print_map(&map);
-	free(map.points[0]);
-	free(map.points);
+	if (map.points && map.points[0])
+	{
+		free(map.points[0]);
+		free(map.points);
+	}
 	return (0);
 	mlx.ptr = mlx_init();
 	mlx.win_ptr = mlx_new_window(mlx.ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "fdf");
