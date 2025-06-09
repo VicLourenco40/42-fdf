@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 12:46:08 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:00:25 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ typedef struct s_mlx
 }	t_mlx;
 
 void	parse_map(const char *const file, t_map *const map);
+void	init_mlx(t_mlx *const mlx);
 
 #endif

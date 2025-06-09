@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 11:26:14 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:01:06 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 	}
 }
 
-void	init_map(t_map *const map, const t_vec2 size)
+static void	init_map(t_map *const map, const t_vec2 size)
 {
 	int	x;
 

@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 14:12:14 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/06 18:03:27 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/09 13:00:37 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ IFLAGS = -I $(IDIR) -I $(LFTDIR)$(IDIR) -I $(MLXDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
-OBJ = main.o parsing.o draw.o
+OBJ = main.o map.o mlx.o draw.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
 LFTDIR = libft/
 LFT = $(patsubst %, $(LFTDIR)%, libft.a)
