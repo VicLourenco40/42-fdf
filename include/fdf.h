@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:54:14 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:25:47 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ typedef struct s_mlx
 void	parse_map(const char *const file, t_map *const map);
 void	free_map(t_map *const map);
 void	init_mlx(t_mlx *const mlx);
+void	free_mlx(t_mlx *const mlx);
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size);
+void	free_camera(t_camera *const camera, void *mlx);
 void	put_image_pixel(t_image *const image, const t_vec2 pos);
 void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2);
 void	project_map(const t_map *const map, t_camera *const camera, \

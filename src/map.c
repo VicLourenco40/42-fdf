@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 11:12:20 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:40:35 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 
 static void	init_map(t_map *const map, t_vec2 size)
 {
-	free_map(map);
-	map->size = size;
+	ft_bzero(map, sizeof(t_map));
 	map->points = ft_calloc(size.x, sizeof(int *));
 	if (!map->points)
-		return (free_map(map));
+		return ;
 	map->points[0] = ft_calloc(size.x * size.y, sizeof(int));
 	if (!map->points[0])
 		return (free_map(map));
+	map->size = size;
 	while (--size.x)
 		map->points[size.x] = map->points[0] + (size.x * size.y);
 }

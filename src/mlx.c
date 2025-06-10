@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:58:02 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:25:17 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:40:54 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,17 @@ void	init_mlx(t_mlx *const mlx)
 		return ;
 	mlx->win_ptr = mlx_new_window(mlx->ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "fdf");
 	if (!mlx->win_ptr)
+		free_mlx(mlx);
+}
+
+void	free_mlx(t_mlx *const mlx)
+{
+	if (mlx->ptr)
 	{
+		if (mlx->win_ptr)
+			mlx_destroy_window(mlx->ptr, mlx->win_ptr);
 		mlx_destroy_display(mlx->ptr);
 		free(mlx->ptr);
-		mlx->ptr = NULL;
 	}
+	ft_bzero(mlx, sizeof(t_mlx));
 }

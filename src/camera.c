@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:41:46 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:41:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@
 
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 {
-	ft_bzero(camera, sizeof(t_camera));
+	ft_bzero(camera, sizeof(camera));
 	camera->points = ft_calloc(size.x, sizeof(t_vec2 *));
 	if (!camera->points)
 		return ;
 	camera->points[0] = ft_calloc(size.x * size.y, sizeof(t_vec2));
+	if (!camera->points[0])
+		return (free_camera(camera, mlx));
 	camera->image.ptr = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	if (!camera->points[0] || !camera->image.ptr)
-	{
-		free(camera->points[0]);
-		free(camera->points);
-		camera->points = NULL;
-		return ;
-	}
+	if (!camera->image.ptr)
+		return (free_camera(camera, mlx));
 	while (--size.x)
 		camera->points[size.x] = camera->points[0] + (size.x * size.y);
 	camera->image.data = mlx_get_data_addr(camera->image.ptr, \
@@ -40,6 +37,18 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
 	camera->zoom = 20.0f;
 	camera->height_scale = 1.0f;
+}
+
+void	free_camera(t_camera *const camera, void *mlx)
+{
+	if (camera->points)
+	{
+		free(camera->points[0]);
+		free(camera->points);
+	}
+	if (camera->image.ptr)
+		mlx_destroy_image(mlx, camera->image.ptr);
+	ft_bzero(camera, sizeof(camera));
 }
 
 static t_vec2	map_to_camera(const t_camera *const camera, t_vec3f point)
