@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 13:20:01 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:05:31 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	handle_key(const int keycode, const t_all *const all)
 	else if (keycode == KEY_D)
 		all->camera->position.y += 2;
 	else if (keycode == KEY_UP)
-		all->camera->rotation.x += M_PI_4 / 4;
+		all->camera->rotation.x += asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_DOWN)
-		all->camera->rotation.x -= M_PI_4 / 4;
+		all->camera->rotation.x -= asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_LEFT)
 		all->camera->rotation.y += M_PI_4 / 4;
 	else if (keycode == KEY_RIGHT)
