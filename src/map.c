@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 11:06:10 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:12:20 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 
 static void	init_map(t_map *const map, t_vec2 size)
 {
-	ft_bzero(map, sizeof(t_map));
+	free_map(map);
 	map->size = size;
 	map->points = ft_calloc(size.x, sizeof(int *));
 	if (!map->points)
@@ -107,11 +107,11 @@ void	parse_map(const char *const file, t_map *const map)
 
 	lines = get_file_lines(file);
 	if (!lines)
-		return ;
+		return (free_map(map));
 	init_map(map, \
 			(t_vec2){ft_lstsize(lines), count_values(lines->content, ' ')});
-	line = lines;
 	x = 0;
+	line = lines;
 	while (line)
 	{
 		if (count_values(line->content, ' ') != map->size.y)

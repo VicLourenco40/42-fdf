@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:26:43 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:13:14 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	parse_map(argv[1], &map);
-	if (!map.points)
+	if (!map.size.x)
 		return (1);
 	init_mlx(&mlx);
 	if (!mlx.ptr)
