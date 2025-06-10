@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 13:10:07 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:20:01 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 int	handle_key(const int keycode, const t_all *const all)
 {
+	//ft_printf("%d\n", keycode);
 	if (keycode == KEY_ESCAPE)
 		mlx_loop_end(all->mlx->ptr);
 	else if (keycode == KEY_W)
@@ -37,6 +38,10 @@ int	handle_key(const int keycode, const t_all *const all)
 		all->camera->rotation.y += M_PI_4 / 4;
 	else if (keycode == KEY_RIGHT)
 		all->camera->rotation.y -= M_PI_4 / 4;
+	else if (keycode == KEY_PAGE_UP)
+		all->camera->zoom += 5.0f;
+	else if (keycode == KEY_PAGE_DOWN)
+		all->camera->zoom -= 5.0f;
 	project_map(all->map, all->camera, all->mlx);
 	return (0);
 }
@@ -46,7 +51,7 @@ int	main(int argc, char **argv)
 	t_map		map;
 	t_mlx		mlx;
 	t_camera	camera;
-	t_all		all;
+	const t_all	all = {&mlx, &map, &camera};
 
 	if (argc < 2)
 	{
@@ -63,8 +68,7 @@ int	main(int argc, char **argv)
 	if (!camera.points)
 		return (1);
 	project_map(&map, &camera, &mlx);
-	all = (t_all){&mlx, &map, &camera};
-	mlx_key_hook(mlx.win_ptr, &handle_key, &all);
+	mlx_key_hook(mlx.win_ptr, &handle_key, (void *) &all);
 	mlx_loop(mlx.ptr);
 	free_map(&map);
 	free_camera(&camera, mlx.ptr);

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 13:11:21 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:19:19 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define WINDOW_HEIGHT	720
 
 # define KEY_ESCAPE		65307
+# define KEY_PAGE_UP	65365
+# define KEY_PAGE_DOWN	65366
 # define KEY_A			97
 # define KEY_D			100
 # define KEY_S			115
