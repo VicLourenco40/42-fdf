@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:46:52 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:12:38 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,31 @@
 
 int	handle_key(const int keycode, const t_all *const all)
 {
+	const float	mag = 2.0f;
+
 	//ft_printf("%d\n", keycode);
 	if (keycode == KEY_ESCAPE)
 		mlx_loop_end(all->mlx->ptr);
 	else if (keycode == KEY_W)
-		all->camera->position.x -= 2;
+	{
+		all->camera->position.x += mag * cosf(all->camera->rotation.y);
+		all->camera->position.y += mag * sinf(all->camera->rotation.y);
+	}
 	else if (keycode == KEY_S)
-		all->camera->position.x += 2;
+	{
+		all->camera->position.x -= mag * cosf(all->camera->rotation.y);
+		all->camera->position.y -= mag * sinf(all->camera->rotation.y);
+	}
 	else if (keycode == KEY_A)
-		all->camera->position.y -= 2;
+	{
+		all->camera->position.x += mag * -sinf(all->camera->rotation.y);
+		all->camera->position.y += mag * cosf(all->camera->rotation.y);
+	}
 	else if (keycode == KEY_D)
-		all->camera->position.y += 2;
+	{
+		all->camera->position.x -= mag * -sinf(all->camera->rotation.y);
+		all->camera->position.y -= mag * cosf(all->camera->rotation.y);
+	}
 	else if (keycode == KEY_UP)
 		all->camera->rotation.x += asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_DOWN)

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:43:14 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:16:02 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 	camera->image.ptr = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!camera->image.ptr)
 		return (free_camera(camera, mlx));
-	camera->position = (t_vec2){-size.x / 2, -size.y / 2};
+	camera->position = (t_vec2f){-size.x / 2.0f, -size.y / 2.0f};
 	while (--size.x)
 		camera->points[size.x] = camera->points[0] + (size.x * size.y);
 	camera->image.data = mlx_get_data_addr(camera->image.ptr, \
