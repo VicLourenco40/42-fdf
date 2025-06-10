@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 18:40:04 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:06:10 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,18 @@ static t_list	*get_file_lines(const char *const file)
 	if (fd == -1)
 		return (NULL);
 	lines = NULL;
-	while (true)
+	line = ft_get_next_line(fd);
+	while (line)
 	{
-		line = ft_get_next_line(fd);
-		if (!line)
-			break ;
 		node = ft_lstnew(line);
 		if (!node)
 		{
 			free(line);
 			ft_lstclear(&lines, &free);
-			return (NULL);
+			break ;
 		}
 		ft_lstadd_back(&lines, node);
+		line = ft_get_next_line(fd);
 	}
 	close(fd);
 	return (lines);
@@ -78,22 +77,26 @@ static void	str_to_ints(const char *str, const char delim, int *ints)
 
 static void	init_map(t_map *const map, t_vec2 size)
 {
+	ft_bzero(map, sizeof(t_map));
 	map->size = size;
 	map->points = ft_calloc(size.x, sizeof(int *));
 	if (!map->points)
-	{
-		ft_bzero(map, sizeof(t_map));
-		return ;
-	}
+		return (free_map(map));
 	map->points[0] = ft_calloc(size.x * size.y, sizeof(int));
 	if (!map->points[0])
-	{
-		free(map->points);
-		ft_bzero(map, sizeof(t_map));
-		return ;
-	}
+		return (free_map(map));
 	while (--size.x)
 		map->points[size.x] = map->points[0] + (size.x * size.y);
+}
+
+void	free_map(t_map *const map)
+{
+	if (map->points)
+	{
+		free(map->points[0]);
+		free(map->points);
+	}
+	ft_bzero(map, sizeof(t_map));
 }
 
 void	parse_map(const char *const file, t_map *const map)
@@ -102,24 +105,21 @@ void	parse_map(const char *const file, t_map *const map)
 	t_list	*line;
 	int		x;
 
-	ft_bzero(map, sizeof(t_map));
 	lines = get_file_lines(file);
 	if (!lines)
 		return ;
 	init_map(map, \
-		(t_vec2){ft_lstsize(lines), count_values(lines->content, ' ')});
-	x = -1;
+			(t_vec2){ft_lstsize(lines), count_values(lines->content, ' ')});
 	line = lines;
-	while (++x < map->size.x)
+	x = 0;
+	while (line)
 	{
 		if (count_values(line->content, ' ') != map->size.y)
 		{
-			free(map->points[0]);
-			free(map->points);
-			ft_bzero(map, sizeof(t_map));
+			free_map(map);
 			break ;
 		}
-		str_to_ints(line->content, ' ', map->points[x]);
+		str_to_ints(line->content, ' ', map->points[x++]);
 		line = line->next;
 	}
 	ft_lstclear(&lines, &free);
