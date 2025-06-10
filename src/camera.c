@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 19:23:40 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:41:46 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,56 @@
 #include <mlx.h>
 
 #include <math.h>
+#include <stdlib.h>
 
-static t_vec2	map_to_camera(const t_camera *const camera, t_vec3 point)
+void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
+{
+	ft_bzero(camera, sizeof(t_camera));
+	camera->points = ft_calloc(size.x, sizeof(t_vec2 *));
+	if (!camera->points)
+		return ;
+	camera->points[0] = ft_calloc(size.x * size.y, sizeof(t_vec2));
+	camera->image.ptr = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!camera->points[0] || !camera->image.ptr)
+	{
+		free(camera->points[0]);
+		free(camera->points);
+		camera->points = NULL;
+		return ;
+	}
+	while (--size.x)
+		camera->points[size.x] = camera->points[0] + (size.x * size.y);
+	camera->image.data = mlx_get_data_addr(camera->image.ptr, \
+		&camera->image.color_depth, &camera->image.line_size, \
+		&camera->image.endian);
+	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
+	camera->zoom = 20.0f;
+	camera->height_scale = 1.0f;
+}
+
+static t_vec2	map_to_camera(const t_camera *const camera, t_vec3f point)
 {
 	const float	sina = sinf(camera->rotation.x);
 	const float	cosa = cosf(camera->rotation.x);
 	const float	sinb = sinf(camera->rotation.y);
 	const float	cosb = cosf(camera->rotation.y);
 
-	point.x = (point.x + camera->position.x) * camera->zoom;
-	point.y = (point.y + camera->position.y) * camera->zoom;
-	point.z *= camera->height_scale * camera->zoom;
-	return ((t_vec2){(cosb * point.x) - (sinb * point.y), \
-		(cosa * ((sinb * point.x) + (cosb * point.y))) - (sina * point.z)});
+	point = (t_vec3f){
+		(point.x + camera->position.x) * camera->zoom,
+		(point.y + camera->position.y) * camera->zoom,
+		point.z * camera->height_scale * camera->zoom};
+	return ((t_vec2){
+		cosb * point.y - sinb * point.x,
+		cosa * (sinb * point.y + cosb * point.x) - sina * point.z});
 }
 
-void	project_map(t_map *map, t_camera *camera, t_mlx *mlx)
+void	project_map(const t_map *const map, t_camera *const camera, \
+	t_mlx *const mlx)
 {
 	int	x;
 	int	y;
 
-	clear_image(&camera->image);
+	ft_bzero(camera->image.data, camera->image.line_size * WINDOW_HEIGHT);
 	x = -1;
 	while (++x < map->size.x)
 	{
@@ -43,7 +72,7 @@ void	project_map(t_map *map, t_camera *camera, t_mlx *mlx)
 		while (++y < map->size.y)
 		{
 			camera->points[x][y] = map_to_camera(camera, \
-				(t_vec3){y, x, map->points[x][y]});
+				(t_vec3f){x, y, map->points[x][y]});
 			if (x)
 				put_image_line(&camera->image, camera->points[x][y], \
 					camera->points[x - 1][y]);

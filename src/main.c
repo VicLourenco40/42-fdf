@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/09 19:31:29 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:26:43 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include <stdlib.h>
 
-static int	handle_key(const int keycode, const t_mlx *const mlx)
+int	handle_key(const int keycode, const t_mlx *const mlx)
 {
 	if (keycode == KEY_ESCAPE)
 		mlx_loop_end(mlx->ptr);
