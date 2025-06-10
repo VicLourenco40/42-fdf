@@ -6,12 +6,14 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:41:59 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:27:52 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:51:13 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <libft.h>
+
+#include <math.h>
 
 void	put_image_pixel(t_image *const image, const t_vec2 pos)
 {
@@ -36,5 +38,6 @@ void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2)
 	step_y = (float)delta.y / step;
 	i = 0;
 	while (++i <= step)
-		put_image_pixel(image, (t_vec2){p1.x + step_x * i, p1.y + step_y * i});
+		put_image_pixel(image, \
+				(t_vec2){roundf(p1.x + step_x * i), roundf(p1.y + step_y * i)});
 }

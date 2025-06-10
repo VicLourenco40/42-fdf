@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 14:05:31 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:46:52 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,18 @@ int	handle_key(const int keycode, const t_all *const all)
 		all->camera->rotation.y += M_PI_4 / 4;
 	else if (keycode == KEY_RIGHT)
 		all->camera->rotation.y -= M_PI_4 / 4;
-	else if (keycode == KEY_PAGE_UP)
-		all->camera->zoom += 5.0f;
-	else if (keycode == KEY_PAGE_DOWN)
-		all->camera->zoom -= 5.0f;
+	else if (keycode == KEY_PLUS)
+		all->camera->zoom = \
+			ft_clampf(all->camera->zoom + 4.0f, 4.0f, 80.0f);
+	else if (keycode == KEY_MINUS)
+		all->camera->zoom = \
+			ft_clampf(all->camera->zoom - 4.0f, 4.0f, 80.0f);
+	else if (keycode == KEY_SQ_BRACKET_LEFT)
+		all->camera->height_scale = \
+			ft_clampf(all->camera->height_scale - 0.1f, 0.0f, 10.0f);
+	else if (keycode == KEY_SQ_BRACKET_RIGHT)
+		all->camera->height_scale = \
+			ft_clampf(all->camera->height_scale + 0.1f, 0.0f, 10.0f);
 	project_map(all->map, all->camera, all->mlx);
 	return (0);
 }

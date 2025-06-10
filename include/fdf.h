@@ -6,27 +6,29 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 13:19:19 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:05:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define WINDOW_WIDTH	1280
-# define WINDOW_HEIGHT	720
+# define WINDOW_WIDTH			1280
+# define WINDOW_HEIGHT			720
 
-# define KEY_ESCAPE		65307
-# define KEY_PAGE_UP	65365
-# define KEY_PAGE_DOWN	65366
-# define KEY_A			97
-# define KEY_D			100
-# define KEY_S			115
-# define KEY_W			119
-# define KEY_LEFT		65361
-# define KEY_UP			65362
-# define KEY_RIGHT		65363
-# define KEY_DOWN		65364
+# define KEY_ESCAPE				65307
+# define KEY_MINUS				45
+# define KEY_PLUS				61
+# define KEY_SQ_BRACKET_LEFT	91
+# define KEY_SQ_BRACKET_RIGHT	93
+# define KEY_A					97
+# define KEY_D					100
+# define KEY_S					115
+# define KEY_W					119
+# define KEY_LEFT				65361
+# define KEY_UP					65362
+# define KEY_RIGHT				65363
+# define KEY_DOWN				65364
 
 typedef struct s_vec2
 {

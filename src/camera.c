@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 14:28:44 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:43:14 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 		&camera->image.color_depth, &camera->image.line_size, \
 		&camera->image.endian);
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
-	camera->zoom = 20.0f;
+	camera->zoom = 12.0f;
 	camera->height_scale = 1.0f;
 }
 
@@ -64,10 +64,10 @@ static t_vec2	map_to_camera(const t_camera *const camera, t_vec3f point)
 		(point.y + camera->position.y) * camera->zoom,
 		point.z * camera->height_scale * camera->zoom};
 	return ((t_vec2){
-		WINDOW_WIDTH / 2.0f + \
-			cosb * point.y - sinb * point.x,
-		WINDOW_HEIGHT / 2.0f + \
-			cosa * (sinb * point.y + cosb * point.x) - sina * point.z});
+		roundf(WINDOW_WIDTH / 2.0f + \
+			cosb * point.y - sinb * point.x),
+		roundf(WINDOW_HEIGHT / 2.0f + \
+			cosa * (sinb * point.y + cosb * point.x) - sina * point.z)});
 }
 
 void	project_map(const t_map *const map, t_camera *const camera, \
