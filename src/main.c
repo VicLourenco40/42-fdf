@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 12:33:51 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:37:04 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,103 +16,101 @@
 #include <stdlib.h>
 #include <math.h>
 
-int	handle_key(const int keycode, const t_all *const all)
+int	handle_key(const int keycode, t_state *const state)
 {
 	const float	mag = 2.0f;
 
 	//ft_printf("%d\n", keycode);
 	if (keycode == KEY_ESCAPE)
-		mlx_loop_end(all->mlx->ptr);
+		mlx_loop_end(state->mlx.ptr);
 	else if (keycode == KEY_W)
 	{
-		all->camera->position.x += mag * cosf(all->camera->rotation.y);
-		all->camera->position.y += mag * sinf(all->camera->rotation.y);
+		state->camera.position.x += mag * cosf(state->camera.rotation.y);
+		state->camera.position.y += mag * sinf(state->camera.rotation.y);
 	}
 	else if (keycode == KEY_S)
 	{
-		all->camera->position.x -= mag * cosf(all->camera->rotation.y);
-		all->camera->position.y -= mag * sinf(all->camera->rotation.y);
+		state->camera.position.x -= mag * cosf(state->camera.rotation.y);
+		state->camera.position.y -= mag * sinf(state->camera.rotation.y);
 	}
 	else if (keycode == KEY_A)
 	{
-		all->camera->position.x += mag * -sinf(all->camera->rotation.y);
-		all->camera->position.y += mag * cosf(all->camera->rotation.y);
+		state->camera.position.x += mag * -sinf(state->camera.rotation.y);
+		state->camera.position.y += mag * cosf(state->camera.rotation.y);
 	}
 	else if (keycode == KEY_D)
 	{
-		all->camera->position.x -= mag * -sinf(all->camera->rotation.y);
-		all->camera->position.y -= mag * cosf(all->camera->rotation.y);
+		state->camera.position.x -= mag * -sinf(state->camera.rotation.y);
+		state->camera.position.y -= mag * cosf(state->camera.rotation.y);
 	}
 	else if (keycode == KEY_UP)
-		all->camera->rotation.x += asinf(tanf(M_PI / 6)) / 4;
+		state->camera.rotation.x += asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_DOWN)
-		all->camera->rotation.x -= asinf(tanf(M_PI / 6)) / 4;
+		state->camera.rotation.x -= asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_LEFT)
-		all->camera->rotation.y -= M_PI_4 / 4;
+		state->camera.rotation.y -= M_PI_4 / 4;
 	else if (keycode == KEY_RIGHT)
-		all->camera->rotation.y += M_PI_4 / 4;
+		state->camera.rotation.y += M_PI_4 / 4;
 	else if (keycode == KEY_PLUS)
-		all->camera->zoom = \
-			ft_clampf(all->camera->zoom + 4.0f, 4.0f, 80.0f);
+		state->camera.zoom = \
+			ft_clampf(state->camera.zoom + 4.0f, 4.0f, 80.0f);
 	else if (keycode == KEY_MINUS)
-		all->camera->zoom = \
-			ft_clampf(all->camera->zoom - 4.0f, 4.0f, 80.0f);
+		state->camera.zoom = \
+			ft_clampf(state->camera.zoom - 4.0f, 4.0f, 80.0f);
 	else if (keycode == KEY_SQ_BRACKET_LEFT)
-		all->camera->height_scale = \
-			ft_clampf(all->camera->height_scale - 0.1f, 0.0f, 10.0f);
+		state->camera.height_scale = \
+			ft_clampf(state->camera.height_scale - 0.1f, 0.0f, 10.0f);
 	else if (keycode == KEY_SQ_BRACKET_RIGHT)
-		all->camera->height_scale = \
-			ft_clampf(all->camera->height_scale + 0.1f, 0.0f, 10.0f);
+		state->camera.height_scale = \
+			ft_clampf(state->camera.height_scale + 0.1f, 0.0f, 10.0f);
 	return (0);
 }
 
-static bool	init(const char *const file, const t_all *const all)
+static int	loop(t_state *const state)
 {
-	parse_map(file, all->map);
-	if (!all->map->points)
+	project_map(&state->map, &state->camera, &state->mlx);
+	return (0);
+}
+
+static bool	init_state(const char *const file, t_state *const state)
+{
+	ft_bzero(state, sizeof(t_state));
+	parse_map(file, &state->map);
+	if (!state->map.points)
 		return (false);
-	init_mlx(all->mlx);
-	if (!all->mlx->ptr)
+	init_mlx(&state->mlx);
+	if (!state->mlx.ptr)
 		return (false);
-	init_camera(all->camera, all->mlx->ptr, all->map->size);
-	if (!all->camera->points)
+	init_camera(&state->camera, state->mlx.ptr, state->map.size);
+	if (!state->camera.points)
 		return (false);
 	return (true);
 }
 
-static int	loop(const t_all *const all)
+void	free_state(t_state *const state)
 {
-	project_map(all->map, all->camera, all->mlx);
-	return (0);
-}
-
-void	free_all(const t_all *const all)
-{
-	free_map(all->map);
-	free_camera(all->camera, all->mlx->ptr);
-	free_mlx(all->mlx);
+	free_map(&state->map);
+	free_camera(&state->camera, state->mlx.ptr);
+	free_mlx(&state->mlx);
 }
 
 int	main(int argc, char **argv)
 {
-	static t_map	map;
-	static t_mlx	mlx;
-	static t_camera	camera;
-	const t_all		all = {&mlx, &map, &camera};
+	t_state	state;
 
 	if (argc < 2)
 	{
 		ft_putstr_fd("usage: fdf <file>\n", 1);
 		return (1);
 	}
-	if (!init(argv[1], &all))
+	if (!init_state(argv[1], &state))
 	{
 		ft_putstr_fd("fdf: initialization error\n", 2);
-		free_all(&all);
+		free_state(&state);
 		return (1);
 	}
-	mlx_key_hook(mlx.win_ptr, &handle_key, (void *) &all);
-	mlx_loop_hook(mlx.ptr, &loop, (void *) &all);
-	mlx_loop(mlx.ptr);
-	free_all(&all);
+	mlx_key_hook(state.mlx.win_ptr, &handle_key, (void *) &state);
+	mlx_loop_hook(state.mlx.ptr, &loop, (void *) &state);
+	mlx_loop(state.mlx.ptr);
+	free_state(&state);
 }

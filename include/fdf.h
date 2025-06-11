@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 12:26:37 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:10:47 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ typedef struct s_mlx
 	void	*win_ptr;
 }	t_mlx;
 
-typedef struct s_all
+typedef struct s_state
 {
-	t_mlx		*mlx;
-	t_map		*map;
-	t_camera	*camera;
-}	t_all;
+	t_mlx		mlx;
+	t_map		map;
+	t_camera	camera;
+}	t_state;
 
 void	parse_map(const char *const file, t_map *const map);
 void	free_map(t_map *const map);
