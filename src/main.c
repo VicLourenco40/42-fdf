@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 18:12:38 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:34:34 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	handle_key(const int keycode, const t_all *const all)
 		all->camera->position.y -= mag * cosf(all->camera->rotation.y);
 	}
 	else if (keycode == KEY_UP)
-		all->camera->rotation.x += asinf(tanf(M_PI / 6)) / 4;
-	else if (keycode == KEY_DOWN)
 		all->camera->rotation.x -= asinf(tanf(M_PI / 6)) / 4;
+	else if (keycode == KEY_DOWN)
+		all->camera->rotation.x += asinf(tanf(M_PI / 6)) / 4;
 	else if (keycode == KEY_LEFT)
-		all->camera->rotation.y += M_PI_4 / 4;
-	else if (keycode == KEY_RIGHT)
 		all->camera->rotation.y -= M_PI_4 / 4;
+	else if (keycode == KEY_RIGHT)
+		all->camera->rotation.y += M_PI_4 / 4;
 	else if (keycode == KEY_PLUS)
 		all->camera->zoom = \
 			ft_clampf(all->camera->zoom + 4.0f, 4.0f, 80.0f);
