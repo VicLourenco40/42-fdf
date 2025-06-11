@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:58:02 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 12:40:54 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:09:21 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 void	init_mlx(t_mlx *const mlx)
 {
-	ft_bzero(mlx, sizeof(t_mlx));
 	mlx->ptr = mlx_init();
 	if (!mlx->ptr)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 18:16:02 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:09:29 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 {
-	ft_bzero(camera, sizeof(camera));
 	camera->points = ft_calloc(size.x, sizeof(t_vec2 *));
 	if (!camera->points)
 		return ;
@@ -47,7 +46,7 @@ void	free_camera(t_camera *const camera, void *mlx)
 		free(camera->points[0]);
 		free(camera->points);
 	}
-	if (camera->image.ptr)
+	if (camera->image.ptr && mlx)
 		mlx_destroy_image(mlx, camera->image.ptr);
 	ft_bzero(camera, sizeof(camera));
 }

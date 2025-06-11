@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 11:34:34 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:10:01 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,56 @@ int	handle_key(const int keycode, const t_all *const all)
 	else if (keycode == KEY_SQ_BRACKET_RIGHT)
 		all->camera->height_scale = \
 			ft_clampf(all->camera->height_scale + 0.1f, 0.0f, 10.0f);
+	return (0);
+}
+
+static bool	init(const char *const file, const t_all *const all)
+{
+	parse_map(file, all->map);
+	if (!all->map->points)
+		return (false);
+	init_mlx(all->mlx);
+	if (!all->mlx->ptr)
+		return (false);
+	init_camera(all->camera, all->mlx->ptr, all->map->size);
+	if (!all->camera->points)
+		return (false);
+	return (true);
+}
+
+static int	loop(const t_all *const all)
+{
 	project_map(all->map, all->camera, all->mlx);
 	return (0);
 }
 
+void	free_all(const t_all *const all)
+{
+	free_map(all->map);
+	free_camera(all->camera, all->mlx->ptr);
+	free_mlx(all->mlx);
+}
+
 int	main(int argc, char **argv)
 {
-	t_map		map;
-	t_mlx		mlx;
-	t_camera	camera;
-	const t_all	all = {&mlx, &map, &camera};
+	static t_map	map;
+	static t_mlx	mlx;
+	static t_camera	camera;
+	const t_all		all = {&mlx, &map, &camera};
 
 	if (argc < 2)
 	{
 		ft_putstr_fd("usage: fdf <file>\n", 1);
 		return (1);
 	}
-	parse_map(argv[1], &map);
-	if (!map.points)
+	if (!init(argv[1], &all))
+	{
+		ft_putstr_fd("fdf: initialization error\n", 2);
+		free_all(&all);
 		return (1);
-	init_mlx(&mlx);
-	if (!mlx.ptr)
-		return (1);
-	init_camera(&camera, mlx.ptr, map.size);
-	if (!camera.points)
-		return (1);
-	project_map(&map, &camera, &mlx);
+	}
 	mlx_key_hook(mlx.win_ptr, &handle_key, (void *) &all);
+	mlx_loop_hook(mlx.ptr, &loop, (void *) &all);
 	mlx_loop(mlx.ptr);
-	free_map(&map);
-	free_camera(&camera, mlx.ptr);
-	free_mlx(&mlx);
+	free_all(&all);
 }
