@@ -6,12 +6,14 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/10 18:16:48 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:26:37 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+
+# include <libft.h>
 
 # define WINDOW_WIDTH			1280
 # define WINDOW_HEIGHT			720
@@ -97,5 +99,8 @@ void	put_image_pixel(t_image *const image, const t_vec2 pos);
 void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2);
 void	project_map(const t_map *const map, t_camera *const camera, \
 	t_mlx *const mlx);
+t_list	*get_file_lines(const char *const file);
+int		count_str_values(const char *str, const char delim);
+void	str_to_ints(const char *str, const char delim, int *ints);
 
 #endif

@@ -6,74 +6,13 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 12:08:28 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:27:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
-#include <libft.h>
 
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-static t_list	*get_file_lines(const char *const file)
-{
-	const int	fd = open(file, O_RDONLY);
-	char		*line;
-	t_list		*lines;
-	t_list		*node;
-
-	if (fd == -1)
-		return (NULL);
-	lines = NULL;
-	line = ft_get_next_line(fd);
-	while (line)
-	{
-		node = ft_lstnew(line);
-		if (!node)
-		{
-			free(line);
-			ft_lstclear(&lines, &free);
-			break ;
-		}
-		ft_lstadd_back(&lines, node);
-		line = ft_get_next_line(fd);
-	}
-	close(fd);
-	return (lines);
-}
-
-static int	count_values(const char *str, const char delim)
-{
-	int		count;
-	bool	in_delim;
-
-	count = 0;
-	in_delim = true;
-	while (*str && *str != '\n')
-	{
-		if (in_delim && *str != delim)
-			count++;
-		in_delim = *str == delim;
-		str++;
-	}
-	return (count);
-}
-
-static void	str_to_ints(const char *str, const char delim, int *ints)
-{
-	bool	in_delim;
-
-	in_delim = true;
-	while (*str && *str != '\n')
-	{
-		if (in_delim && *str != delim)
-			*ints++ = ft_atoi(str);
-		in_delim = *str == delim;
-		str++;
-	}
-}
 
 static void	init_map(t_map *const map, t_vec2 size)
 {
@@ -108,12 +47,12 @@ void	parse_map(const char *const file, t_map *const map)
 	if (!lines)
 		return ;
 	init_map(map, (t_vec2){ft_lstsize(lines), \
-		count_values(lines->content, ' ')});
+		count_str_values(lines->content, ' ')});
 	line = lines;
 	x = 0;
 	while (x < map->size.x)
 	{
-		if (count_values(line->content, ' ') != map->size.y)
+		if (count_str_values(line->content, ' ') != map->size.y)
 		{
 			free_map(map);
 			break ;
