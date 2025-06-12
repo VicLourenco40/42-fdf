@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:22:39 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:53:00 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:21:30 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,4 @@ int	count_str_values(const char *str, const char delim)
 		str++;
 	}
 	return (count);
-}
-
-int	ft_atoi_hex(const char *nptr)
-{
-	int	num;
-
-	while (ft_isspace(*nptr))
-		nptr++;
-	num = 0;
-	while (*nptr)
-	{
-		if (ft_isdigit(*nptr))
-			num = num * 16 + *nptr++ - '0';
-		else if (*nptr >= 'a' && *nptr <= 'f')
-			num = num * 16 + 10 + *nptr++ - 'a';
-		else if (*nptr >= 'A' && *nptr <= 'F')
-			num = num * 16 + 10 + *nptr++ - 'A';
-		else
-			break ;
-	}
-	return (num);
 }

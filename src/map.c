@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:50:17 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:19:38 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void	free_map(t_map *const map)
 	ft_bzero(map, sizeof(t_map));
 }
 
-void	parse_line(const char *const line, int *const points,
-	t_color *const colors)
+static void	parse_line(const char *line, int *points, t_color *colors)
 {
 	bool	in_delim;
 
@@ -60,8 +59,8 @@ void	parse_line(const char *const line, int *const points,
 			*points++ = ft_atoi(line);
 		if (ft_strnstr(line, ",0x", 3) || ft_strnstr(line, ",0X", 3))
 			*(int *)colors++ = ft_atoi_hex(line + 3);
-		in_delim = *str == ' ';
-		str++;
+		in_delim = *line == ' ';
+		line++;
 	}
 }
 
@@ -85,7 +84,7 @@ void	parse_map(const char *const file, t_map *const map)
 			free_map(map);
 			break ;
 		}
-		str_to_ints(line->content, map->points[x], map->colors[x]);
+		parse_line(line->content, map->points[x], map->colors[x]);
 		line = line->next;
 	}
 	ft_lstclear(&lines, &free);
