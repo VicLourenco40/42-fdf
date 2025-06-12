@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:15:47 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:50:17 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,23 @@ void	free_map(t_map *const map)
 		free(map->colors);
 	}
 	ft_bzero(map, sizeof(t_map));
+}
+
+void	parse_line(const char *const line, int *const points,
+	t_color *const colors)
+{
+	bool	in_delim;
+
+	in_delim = true;
+	while (*line && *line != '\n')
+	{
+		if (in_delim && *line != ' ')
+			*points++ = ft_atoi(line);
+		if (ft_strnstr(line, ",0x", 3) || ft_strnstr(line, ",0X", 3))
+			*(int *)colors++ = ft_atoi_hex(line + 3);
+		in_delim = *str == ' ';
+		str++;
+	}
 }
 
 void	parse_map(const char *const file, t_map *const map)

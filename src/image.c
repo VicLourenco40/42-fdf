@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:41:59 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 13:10:39 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:59:25 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static t_color	color_lerp(const t_color c1, const t_color c2, const float t)
 		c1.b + (c2.b - c1.b) * t,
 		c1.g + (c2.g - c1.g) * t,
 		c1.r + (c2.r - c1.r) * t,
-		0});
+		0
+	});
 }
 
 void	put_image_pixel(t_image *const image, const t_vec2 point,

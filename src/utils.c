@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:22:39 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:07:54 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:53:00 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,4 @@ int	ft_atoi_hex(const char *nptr)
 			break ;
 	}
 	return (num);
-}
-
-void	str_to_ints(const char *str, int *ints, t_color *colors)
-{
-	bool	in_delim;
-
-	in_delim = true;
-	while (*str && *str != '\n')
-	{
-		if (in_delim && *str != ' ')
-			*ints++ = ft_atoi(str);
-		if (ft_strnstr(str, ",0x", 3) || ft_strnstr(str, ",0X", 3))
-			*(int *)colors++ = ft_atoi_hex(str + 3);
-		in_delim = *str == ' ';
-		str++;
-	}
 }

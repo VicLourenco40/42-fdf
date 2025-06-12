@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 12:46:45 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:54:23 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,5 @@ void	project_map(const t_map *const map, t_camera *const camera,
 			t_mlx *const mlx);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
-void	str_to_ints(const char *str, int *ints, t_color *colors);
 
 #endif
