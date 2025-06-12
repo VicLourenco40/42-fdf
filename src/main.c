@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 11:11:46 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:47:31 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	handle_key(const int keycode, t_state *const state)
 			ft_clampf(state->camera.zoom + 4.0f, 4.0f, 80.0f);
 	else if (keycode == KEY_MINUS)
 		state->camera.zoom = \
-			ft_clampf(state->camera.zoom - 4.0f, 4.0f, 80.0f);
+			ft_clampf(state->camera.zoom - 4.0f, 1.0f, 80.0f);
 	else if (keycode == KEY_SQ_BRACKET_LEFT)
 		state->camera.height_scale = \
 			ft_clampf(state->camera.height_scale - 0.1f, 0.0f, 10.0f);

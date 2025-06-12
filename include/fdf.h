@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 11:18:08 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:46:45 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ typedef struct s_vec3f
 
 typedef struct s_color
 {
-	char	a;
-	char	r;
-	char	g;
-	char	b;
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
 }	t_color;
 
 typedef struct s_map
