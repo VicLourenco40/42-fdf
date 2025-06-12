@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 12:47:31 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:19:48 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	handle_key(const int keycode, t_state *const state)
 
 static int	loop(t_state *const state)
 {
-	project_map(&state->map, &state->camera, &state->mlx);
+	draw_map(&state->map, &state->camera, &state->mlx);
 	return (0);
 }
 

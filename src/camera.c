@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 12:47:25 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:29:29 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_camera(t_camera *const camera, void *mlx)
 	ft_bzero(camera, sizeof(camera));
 }
 
-static t_vec2	map_to_camera(const t_camera *const camera, t_vec3f point)
+static t_vec2	point_to_camera(const t_camera *const camera, t_vec3f point)
 {
 	const float	sina = sinf(camera->rotation.x);
 	const float	cosa = cosf(camera->rotation.x);
@@ -69,30 +69,42 @@ static t_vec2	map_to_camera(const t_camera *const camera, t_vec3f point)
 			cosa * (sinb * point.y + cosb * point.x) - sina * point.z)});
 }
 
-void	project_map(const t_map *const map, t_camera *const camera, \
+static void	map_to_camera(const t_map *const map, t_camera *const camera)
+{
+	t_vec2	i;
+
+	i.x = -1;
+	while (++i.x < map->size.x)
+	{
+		i.y = -1;
+		while (++i.y < map->size.y)
+			camera->points[i.x][i.y] = point_to_camera(camera, \
+				(t_vec3f){i.x, i.y, map->points[i.x][i.y]});
+	}
+}
+
+void	draw_map(const t_map *const map, t_camera *const camera, \
 	t_mlx *const mlx)
 {
-	int	x;
-	int	y;
+	t_vec2	i;
 
 	ft_bzero(camera->image.data,
 		camera->image.line_size * sizeof(t_color) * WINDOW_HEIGHT);
-	x = -1;
-	while (++x < map->size.x)
+	map_to_camera(map, camera);
+	i.x = -1;
+	while (++i.x < map->size.x)
 	{
-		y = -1;
-		while (++y < map->size.y)
+		i.y = -1;
+		while (++i.y < map->size.y)
 		{
-			camera->points[x][y] = map_to_camera(camera, \
-				(t_vec3f){x, y, map->points[x][y]});
-			if (x)
+			if (i.x)
 				put_image_line(&camera->image,
-					camera->points[x][y], map->colors[x][y],
-					camera->points[x - 1][y], map->colors[x - 1][y]);
-			if (y)
+					camera->points[i.x][i.y], map->colors[i.x][i.y],
+					camera->points[i.x - 1][i.y], map->colors[i.x - 1][i.y]);
+			if (i.y)
 				put_image_line(&camera->image,
-					camera->points[x][y], map->colors[x][y],
-					camera->points[x][y - 1], map->colors[x][y - 1]);
+					camera->points[i.x][i.y], map->colors[i.x][i.y],
+					camera->points[i.x][i.y - 1], map->colors[i.x][i.y - 1]);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win_ptr, camera->image.ptr, 0, 0);

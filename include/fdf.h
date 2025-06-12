@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:54:23 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:30:13 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	put_image_pixel(t_image *const image, const t_vec2 point,
 			const t_color color);
 void	put_image_line(t_image *const image, const t_vec2 p1, const t_color c1,
 			const t_vec2 p2, const t_color c2);
-void	project_map(const t_map *const map, t_camera *const camera,
+void	draw_map(const t_map *const map, t_camera *const camera,
 			t_mlx *const mlx);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
