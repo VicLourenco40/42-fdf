@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 15:10:47 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:34:15 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_vec3f
 typedef struct s_map
 {
 	int		**points;
+	int		**colors;
 	t_vec2	size;
 }	t_map;
 
@@ -101,6 +102,6 @@ void	project_map(const t_map *const map, t_camera *const camera, \
 	t_mlx *const mlx);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
-void	str_to_ints(const char *str, const char delim, int *ints);
+void	str_to_ints(const char *str, int *ints, int *colors);
 
 #endif

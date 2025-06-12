@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:22:39 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 12:24:11 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:45:20 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,37 @@ int	count_str_values(const char *str, const char delim)
 	return (count);
 }
 
-void	str_to_ints(const char *str, const char delim, int *ints)
+int	ft_atoi_hex(const char *nptr)
+{
+	int	num;
+
+	while (ft_isspace(*nptr))
+		nptr++;
+	num = 0;
+	while (*nptr)
+	{
+		if (ft_isdigit(*nptr))
+			num = num * 16 + *nptr++ - '0';
+		else if (*nptr >= 'a' && *nptr <= 'f')
+			num = num * 16 + 10 + *nptr++ - 'a';
+		else
+			break ;
+	}
+	return (num);
+}
+
+void	str_to_ints(const char *str, int *ints, int *colors)
 {
 	bool	in_delim;
 
 	in_delim = true;
 	while (*str && *str != '\n')
 	{
-		if (in_delim && *str != delim)
+		if (in_delim && *str != ' ')
 			*ints++ = ft_atoi(str);
-		in_delim = *str == delim;
+		if (*str == ',' && ft_strnstr(str, ",0x", 3))
+			*colors++ = ft_atoi_hex(str + 3);
+		in_delim = *str == ' ';
 		str++;
 	}
 }
