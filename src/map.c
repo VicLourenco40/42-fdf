@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 10:34:30 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:15:47 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 static void	init_map(t_map *const map, t_vec2 size)
 {
 	map->points = ft_calloc(size.x, sizeof(int *));
-	map->colors = ft_calloc(size.x, sizeof(int *));
+	map->colors = ft_calloc(size.x, sizeof(t_color *));
 	if (!map->points || !map->colors)
 		return (free_map(map));
 	map->points[0] = ft_calloc(size.x * size.y, sizeof(int));
-	map->colors[0] = ft_calloc(size.x * size.y, sizeof(int));
+	map->colors[0] = ft_calloc(size.x * size.y, sizeof(t_color));
 	if (!map->points[0] || !map->colors[0])
 		return (free_map(map));
+	ft_memset(map->colors[0], 255, size.x * size.y * sizeof(t_color));
 	map->size = size;
 	while (--size.x)
 	{
