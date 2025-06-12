@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 10:34:15 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:18:08 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,25 @@ typedef struct s_vec3f
 	float	z;
 }	t_vec3f;
 
+typedef struct s_color
+{
+	char	a;
+	char	r;
+	char	g;
+	char	b;
+}	t_color;
+
 typedef struct s_map
 {
 	int		**points;
-	int		**colors;
+	t_color	**colors;
 	t_vec2	size;
 }	t_map;
 
 typedef struct s_image
 {
 	void	*ptr;
-	char	*data;
+	t_color	*data;
 	int		line_size;
 	int		color_depth;
 	int		endian;
@@ -96,12 +104,14 @@ void	init_mlx(t_mlx *const mlx);
 void	free_mlx(t_mlx *const mlx);
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size);
 void	free_camera(t_camera *const camera, void *mlx);
-void	put_image_pixel(t_image *const image, const t_vec2 pos);
-void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2);
-void	project_map(const t_map *const map, t_camera *const camera, \
-	t_mlx *const mlx);
+void	put_image_pixel(t_image *const image, const t_vec2 point,
+			const t_color color);
+void	put_image_line(t_image *const image, const t_vec2 p1, const t_color c1,
+			const t_vec2 p2, const t_color c2);
+void	project_map(const t_map *const map, t_camera *const camera,
+			t_mlx *const mlx);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
-void	str_to_ints(const char *str, int *ints, int *colors);
+void	str_to_ints(const char *str, int *ints, t_color *colors);
 
 #endif

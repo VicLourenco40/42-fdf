@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:41:59 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 17:31:35 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:17:05 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,22 @@ static bool	is_point_oob(const t_vec2 point)
 		point.y >= WINDOW_HEIGHT);
 }
 
-void	put_image_pixel(t_image *const image, const t_vec2 point)
+static t_color	color_lerp(const t_color c1, const t_color c2, const int steps,
+	const int step)
+{
+	return (c1);
+}
+
+void	put_image_pixel(t_image *const image, const t_vec2 point,
+	const t_color color)
 {
 	if (is_point_oob(point))
 		return ;
-	((int *)(image->data + point.y * image->line_size))[point.x] = -1;
+	image->data[point.x + point.y * image->line_size] = color;
 }
 
-void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2)
+void	put_image_line(t_image *const image, const t_vec2 p1, const t_color c1,
+	const t_vec2 p2, const t_color c2)
 {
 	const t_vec2	delta = {p2.x - p1.x, p2.y - p1.y};
 	const int		steps = ft_max(ft_abs(delta.x), ft_abs(delta.y));
@@ -41,5 +49,5 @@ void	put_image_line(t_image *const image, const t_vec2 p1, const t_vec2 p2)
 	while (++i <= steps)
 		put_image_pixel(image, (t_vec2){
 			roundf(p1.x + step.x * i),
-			roundf(p1.y + step.y * i)});
+			roundf(p1.y + step.y * i)}, color_lerp(c1, c2, steps, i));
 }

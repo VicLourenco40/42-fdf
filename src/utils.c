@@ -6,10 +6,11 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:22:39 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 10:45:20 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:20:36 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fdf.h>
 #include <libft.h>
 
 #include <stdlib.h>
@@ -79,7 +80,7 @@ int	ft_atoi_hex(const char *nptr)
 	return (num);
 }
 
-void	str_to_ints(const char *str, int *ints, int *colors)
+void	str_to_ints(const char *str, int *ints, t_color *colors)
 {
 	bool	in_delim;
 
@@ -89,7 +90,7 @@ void	str_to_ints(const char *str, int *ints, int *colors)
 		if (in_delim && *str != ' ')
 			*ints++ = ft_atoi(str);
 		if (*str == ',' && ft_strnstr(str, ",0x", 3))
-			*colors++ = ft_atoi_hex(str + 3);
+			*(int *)colors++ = ft_atoi_hex(str + 3);
 		in_delim = *str == ' ';
 		str++;
 	}

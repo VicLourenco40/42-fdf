@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/11 17:32:09 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:17:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 	camera->position = (t_vec2f){-size.x / 2.0f, -size.y / 2.0f};
 	while (--size.x)
 		camera->points[size.x] = camera->points[0] + (size.x * size.y);
-	camera->image.data = mlx_get_data_addr(camera->image.ptr, \
+	camera->image.data = (t_color *) mlx_get_data_addr(camera->image.ptr, \
 		&camera->image.color_depth, &camera->image.line_size, \
 		&camera->image.endian);
+	camera->image.line_size /= sizeof(t_color);
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
 	camera->zoom = 12.0f;
 	camera->height_scale = 1.0f;
@@ -74,7 +75,8 @@ void	project_map(const t_map *const map, t_camera *const camera, \
 	int	x;
 	int	y;
 
-	ft_bzero(camera->image.data, camera->image.line_size * WINDOW_HEIGHT);
+	ft_bzero(camera->image.data,
+		camera->image.line_size * sizeof(t_color) * WINDOW_HEIGHT);
 	x = -1;
 	while (++x < map->size.x)
 	{
@@ -84,11 +86,13 @@ void	project_map(const t_map *const map, t_camera *const camera, \
 			camera->points[x][y] = map_to_camera(camera, \
 				(t_vec3f){x, y, map->points[x][y]});
 			if (x)
-				put_image_line(&camera->image, camera->points[x][y], \
-					camera->points[x - 1][y]);
+				put_image_line(&camera->image,
+					camera->points[x][y], map->colors[x][y],
+					camera->points[x - 1][y], map->colors[x - 1][y]);
 			if (y)
-				put_image_line(&camera->image, camera->points[x][y], \
-					camera->points[x][y - 1]);
+				put_image_line(&camera->image,
+					camera->points[x][y], map->colors[x][y],
+					camera->points[x][y - 1], map->colors[x][y - 1]);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win_ptr, camera->image.ptr, 0, 0);
