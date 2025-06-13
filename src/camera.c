@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 11:49:46 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:12:26 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 		&camera->image.endian);
 	camera->image.line_size /= sizeof(t_color);
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
+	camera->sin = (t_vec2f){sinf(camera->rotation.x), sinf(camera->rotation.y)};
+	camera->cos = (t_vec2f){cosf(camera->rotation.x), cosf(camera->rotation.y)};
 	camera->zoom = 12.0f;
 	camera->height_scale = 1.0f;
 }
@@ -53,20 +55,18 @@ void	free_camera(t_camera *const camera, void *mlx)
 
 static t_vec2	point_to_camera(const t_camera *const camera, t_vec3f point)
 {
-	const float	sina = sinf(camera->rotation.x);
-	const float	cosa = cosf(camera->rotation.x);
-	const float	sinb = sinf(camera->rotation.y);
-	const float	cosb = cosf(camera->rotation.y);
+	const t_vec2f	sin = camera->sin;
+	const t_vec2f	cos = camera->cos;
+	t_vec2			pixel;
 
-	point = (t_vec3f){
-		(point.x + camera->position.x) * camera->zoom,
-		(point.y + camera->position.y) * camera->zoom,
-		point.z * camera->height_scale * camera->zoom};
-	return ((t_vec2){
-		roundf(WINDOW_WIDTH / 2.0f + \
-			cosb * point.y - sinb * point.x),
-		roundf(WINDOW_HEIGHT / 2.0f + \
-			cosa * (sinb * point.y + cosb * point.x) - sina * point.z)});
+	point.x += camera->position.x;
+	point.y += camera->position.y;
+	pixel.x = roundf(WINDOW_WIDTH / 2.0f + camera->zoom * \
+		(cos.y * point.y - sin.y * point.x));
+	pixel.y = roundf(WINDOW_HEIGHT / 2.0f + camera->zoom * \
+		(cos.x * (sin.y * point.y + cos.y * point.x) - \
+		sin.x * point.z * camera->height_scale));
+	return (pixel);
 }
 
 static void	map_to_camera(const t_map *const map, t_camera *const camera)
@@ -83,11 +83,10 @@ static void	map_to_camera(const t_map *const map, t_camera *const camera)
 	}
 }
 
-void	draw_map(const t_map *const map, t_camera *const camera, \
+void	draw_map(const t_map *const map, t_camera *const camera,
 	t_mlx *const mlx)
 {
-	const t_vec2	i = {ft_signf(cosf(camera->rotation.y)),
-		ft_signf(sinf(camera->rotation.y))};
+	const t_vec2	i = {ft_signf(camera->cos.y), ft_signf(camera->sin.y)};
 	t_vec2			c;
 
 	ft_bzero(camera->image.data,

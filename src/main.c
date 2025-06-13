@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 17:19:48 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:20:18 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	handle_key(const int keycode, t_state *const state)
 {
 	const float	mag = 2.0f;
 
-	//ft_printf("%d\n", keycode);
 	if (keycode == KEY_ESCAPE)
 		mlx_loop_end(state->mlx.ptr);
 	else if (keycode == KEY_W)
@@ -63,6 +62,16 @@ int	handle_key(const int keycode, t_state *const state)
 	else if (keycode == KEY_SQ_BRACKET_RIGHT)
 		state->camera.height_scale = \
 			ft_clampf(state->camera.height_scale + 0.1f, 0.0f, 10.0f);
+	if (keycode == KEY_UP || keycode == KEY_DOWN)
+	{
+		state->camera.sin.x = sinf(state->camera.rotation.x);
+		state->camera.cos.x = cosf(state->camera.rotation.x);
+	}
+	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+	{
+		state->camera.sin.y = sinf(state->camera.rotation.y);
+		state->camera.cos.y = cosf(state->camera.rotation.y);
+	}
 	return (0);
 }
 

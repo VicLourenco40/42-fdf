@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 18:30:13 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:54:51 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_camera
 {
 	t_vec2f	position;
 	t_vec2f	rotation;
+	t_vec2f	sin;
+	t_vec2f	cos;
 	float	zoom;
 	float	height_scale;
 	t_vec2	**points;
