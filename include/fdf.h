@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 12:48:53 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:47:43 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,8 @@
 
 # include <libft.h>
 
-# define WINDOW_WIDTH			1280
-# define WINDOW_HEIGHT			720
-
-# define KEY_ESCAPE				65307
-# define KEY_MINUS				45
-# define KEY_PLUS				61
-# define KEY_SQ_BRACKET_LEFT	91
-# define KEY_SQ_BRACKET_RIGHT	93
-# define KEY_A					97
-# define KEY_D					100
-# define KEY_S					115
-# define KEY_W					119
-# define KEY_LEFT				65361
-# define KEY_UP					65362
-# define KEY_RIGHT				65363
-# define KEY_DOWN				65364
+# define WINDOW_WIDTH	1280
+# define WINDOW_HEIGHT	720
 
 typedef struct s_vec2
 {
@@ -99,11 +85,17 @@ typedef struct s_mlx
 	void	*win_ptr;
 }	t_mlx;
 
+typedef struct s_keys
+{
+	char	escape;
+}	t_keys;
+
 typedef struct s_state
 {
 	t_mlx		mlx;
 	t_map		map;
 	t_camera	camera;
+	t_keys		keys;
 }	t_state;
 
 void	parse_map(const char *const file, t_map *const map);
@@ -117,6 +109,8 @@ void	put_image_pixel(t_image *const image, const t_vec2 point,
 void	put_image_line(t_image *const image, const t_line line);
 void	draw_map(const t_map *const map, t_camera *const camera,
 			t_mlx *const mlx);
+int		handle_key_down(int keycode, t_keys *keys);
+int		handle_key_up(int keycode, t_keys *keys);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
 

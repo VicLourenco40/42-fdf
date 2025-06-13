@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 14:12:14 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/11 12:24:35 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/13 16:54:33 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ IFLAGS = -I $(IDIR) -I $(LFTDIR)$(IDIR) -I $(MLXDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
-OBJ = main.o utils.o map.o mlx.o image.o camera.o
+OBJ = main.o utils.o map.o mlx.o image.o camera.o input.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
 LFTDIR = libft/
 LFT = $(patsubst %, $(LFTDIR)%, libft.a)

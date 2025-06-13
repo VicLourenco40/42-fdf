@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 12:20:18 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:50:24 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,68 +15,12 @@
 
 #include <stdlib.h>
 #include <math.h>
-
-int	handle_key(const int keycode, t_state *const state)
-{
-	const float	mag = 2.0f;
-
-	if (keycode == KEY_ESCAPE)
-		mlx_loop_end(state->mlx.ptr);
-	else if (keycode == KEY_W)
-	{
-		state->camera.position.x += mag * cosf(state->camera.rotation.y);
-		state->camera.position.y += mag * sinf(state->camera.rotation.y);
-	}
-	else if (keycode == KEY_S)
-	{
-		state->camera.position.x -= mag * cosf(state->camera.rotation.y);
-		state->camera.position.y -= mag * sinf(state->camera.rotation.y);
-	}
-	else if (keycode == KEY_A)
-	{
-		state->camera.position.x += mag * -sinf(state->camera.rotation.y);
-		state->camera.position.y += mag * cosf(state->camera.rotation.y);
-	}
-	else if (keycode == KEY_D)
-	{
-		state->camera.position.x -= mag * -sinf(state->camera.rotation.y);
-		state->camera.position.y -= mag * cosf(state->camera.rotation.y);
-	}
-	else if (keycode == KEY_UP)
-		state->camera.rotation.x += asinf(tanf(M_PI / 6)) / 4;
-	else if (keycode == KEY_DOWN)
-		state->camera.rotation.x -= asinf(tanf(M_PI / 6)) / 4;
-	else if (keycode == KEY_LEFT)
-		state->camera.rotation.y -= M_PI_4 / 4;
-	else if (keycode == KEY_RIGHT)
-		state->camera.rotation.y += M_PI_4 / 4;
-	else if (keycode == KEY_PLUS)
-		state->camera.zoom = \
-			ft_clampf(state->camera.zoom + 4.0f, 4.0f, 80.0f);
-	else if (keycode == KEY_MINUS)
-		state->camera.zoom = \
-			ft_clampf(state->camera.zoom - 4.0f, 1.0f, 80.0f);
-	else if (keycode == KEY_SQ_BRACKET_LEFT)
-		state->camera.height_scale = \
-			ft_clampf(state->camera.height_scale - 0.1f, 0.0f, 10.0f);
-	else if (keycode == KEY_SQ_BRACKET_RIGHT)
-		state->camera.height_scale = \
-			ft_clampf(state->camera.height_scale + 0.1f, 0.0f, 10.0f);
-	if (keycode == KEY_UP || keycode == KEY_DOWN)
-	{
-		state->camera.sin.x = sinf(state->camera.rotation.x);
-		state->camera.cos.x = cosf(state->camera.rotation.x);
-	}
-	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
-	{
-		state->camera.sin.y = sinf(state->camera.rotation.y);
-		state->camera.cos.y = cosf(state->camera.rotation.y);
-	}
-	return (0);
-}
+#include <X11/X.h>
 
 static int	loop(t_state *const state)
 {
+	if (state->keys.escape)
+		mlx_loop_end(state->mlx.ptr);
 	draw_map(&state->map, &state->camera, &state->mlx);
 	return (0);
 }
@@ -118,8 +62,11 @@ int	main(int argc, char **argv)
 		free_state(&state);
 		return (1);
 	}
-	mlx_key_hook(state.mlx.win_ptr, &handle_key, (void *) &state);
-	mlx_loop_hook(state.mlx.ptr, &loop, (void *) &state);
+	mlx_hook(state.mlx.win_ptr, KeyPress, KeyPressMask, handle_key_down,
+		&state.keys);
+	mlx_hook(state.mlx.win_ptr, KeyRelease, KeyReleaseMask, handle_key_up,
+		&state.keys);
+	mlx_loop_hook(state.mlx.ptr, loop, (void *) &state);
 	mlx_loop(state.mlx.ptr);
 	free_state(&state);
 }
