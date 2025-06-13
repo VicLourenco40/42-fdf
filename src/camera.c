@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 12:12:26 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:31:47 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ void	draw_map(const t_map *const map, t_camera *const camera,
 		while ((i.y > 0 && c.y < map->size.y) || (i.y < 0 && c.y >= 0))
 		{
 			if (c.x)
-				put_image_line(&camera->image,
-					camera->points[c.x][c.y], map->colors[c.x][c.y],
-					camera->points[c.x - 1][c.y], map->colors[c.x - 1][c.y]);
+				put_image_line(&camera->image, (t_line){\
+					{camera->points[c.x][c.y], camera->points[c.x - 1][c.y]}, \
+					{map->colors[c.x][c.y], map->colors[c.x - 1][c.y]}});
 			if (c.y)
-				put_image_line(&camera->image,
-					camera->points[c.x][c.y], map->colors[c.x][c.y],
-					camera->points[c.x][c.y - 1], map->colors[c.x][c.y - 1]);
+				put_image_line(&camera->image, (t_line){\
+					{camera->points[c.x][c.y], camera->points[c.x][c.y - 1]}, \
+					{map->colors[c.x][c.y], map->colors[c.x][c.y - 1]}});
 			c.y += i.y;
 		}
 		c.x += i.x;

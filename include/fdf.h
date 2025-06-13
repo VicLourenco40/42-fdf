@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 11:54:51 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:48:53 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ typedef struct s_map
 	t_vec2	size;
 }	t_map;
 
+typedef struct s_line
+{
+	t_vec2	points[2];
+	t_color	colors[2];
+}	t_line;
+
 typedef struct s_image
 {
 	void	*ptr;
@@ -108,8 +114,7 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size);
 void	free_camera(t_camera *const camera, void *mlx);
 void	put_image_pixel(t_image *const image, const t_vec2 point,
 			const t_color color);
-void	put_image_line(t_image *const image, const t_vec2 p1, const t_color c1,
-			const t_vec2 p2, const t_color c2);
+void	put_image_line(t_image *const image, const t_line line);
 void	draw_map(const t_map *const map, t_camera *const camera,
 			t_mlx *const mlx);
 t_list	*get_file_lines(const char *const file);

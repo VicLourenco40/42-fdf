@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:41:59 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 15:59:25 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:32:15 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static bool	is_point_oob(const t_vec2 point)
 {
-	return (point.x < 0 || point.y < 0 || point.x >= WINDOW_WIDTH || \
-		point.y >= WINDOW_HEIGHT);
+	return (point.x < 0 || point.y < 0 || \
+		point.x >= WINDOW_WIDTH || point.y >= WINDOW_HEIGHT);
 }
 
 static t_color	color_lerp(const t_color c1, const t_color c2, const float t)
@@ -38,21 +38,24 @@ void	put_image_pixel(t_image *const image, const t_vec2 point,
 	image->data[point.x + point.y * image->line_size] = color;
 }
 
-void	put_image_line(t_image *const image, const t_vec2 p1, const t_color c1,
-	const t_vec2 p2, const t_color c2)
+void	put_image_line(t_image *const image, const t_line line)
 {
-	const t_vec2	delta = {p2.x - p1.x, p2.y - p1.y};
+	const t_vec2	delta = {
+		line.points[1].x - line.points[0].x,
+		line.points[1].y - line.points[0].y};
 	const int		steps = ft_max(ft_abs(delta.x), ft_abs(delta.y));
-	const t_vec2f	step = (t_vec2f){(float)delta.x / steps,
-		(float)delta.y / steps};
+	const t_vec2f	step = {(float)delta.x / steps, (float)delta.y / steps};
 	int				i;
+	t_vec2			point;
 
-	if (is_point_oob(p1) && is_point_oob(p2))
+	if (is_point_oob(line.points[0]) && is_point_oob(line.points[1]))
 		return ;
 	i = -1;
 	while (++i <= steps)
-		put_image_pixel(image, (t_vec2){
-			roundf(p1.x + step.x * i),
-			roundf(p1.y + step.y * i)},
-			color_lerp(c1, c2, (float)i / steps));
+	{
+		point.x = roundf(line.points[0].x + step.x * i);
+		point.y = roundf(line.points[0].y + step.y * i);
+		put_image_pixel(image, point,
+			color_lerp(line.colors[0], line.colors[1], (float)i / steps));
+	}
 }
