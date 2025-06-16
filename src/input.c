@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:52:41 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 10:42:35 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:52:17 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ int	handle_key_down(int keycode, t_keys *keys)
 		keys->left = 1;
 	else if (keycode == XK_Right)
 		keys->right = 1;
-	else if (keycode == XK_KP_Add)
-		keys->plus = 1;
-	else if (keycode == XK_KP_Subtract)
+	else if (keycode == XK_minus)
 		keys->minus = 1;
+	else if (keycode == XK_equal)
+		keys->plus = 1;
+	else if (keycode == XK_bracketleft)
+		keys->lbracket = 1;
+	else if (keycode == XK_bracketright)
+		keys->rbracket = 1;
 	return (0);
 }
 
@@ -63,10 +67,14 @@ int	handle_key_up(int keycode, t_keys *keys)
 		keys->left = 0;
 	else if (keycode == XK_Right)
 		keys->right = 0;
-	else if (keycode == XK_KP_Add)
-		keys->plus = 0;
-	else if (keycode == XK_KP_Subtract)
+	else if (keycode == XK_minus)
 		keys->minus = 0;
+	else if (keycode == XK_equal)
+		keys->plus = 0;
+	else if (keycode == XK_bracketleft)
+		keys->lbracket = 0;
+	else if (keycode == XK_bracketright)
+		keys->rbracket = 0;
 	return (0);
 }
 
@@ -84,4 +92,5 @@ void	handle_input(t_keys *const keys, t_camera *const camera,
 	camera->position.x += dir.x * camera->sin.y + dir.y * camera->cos.y;
 	camera->position.y += dir.x * -camera->cos.y + dir.y * camera->sin.y;
 	camera->zoom += (keys->plus - keys->minus) * 0.1f;
+	camera->height_scale += (keys->rbracket - keys->lbracket) * 0.01f;
 }
