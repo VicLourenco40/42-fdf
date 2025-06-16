@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 12:35:51 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:19:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void	free_state(t_state *const state)
 
 static int	loop(t_state *const state)
 {
-	handle_input(&state->keys, &state->camera, state->mlx.ptr);
-	draw_map(&state->map, &state->camera, &state->mlx);
+	handle_movement(&state->keys, &state->camera);
+	render_map(&state->map, &state->camera, &state->mlx);
 	return (0);
 }
 
@@ -60,12 +60,11 @@ int	main(int argc, char **argv)
 		free_state(&state);
 		return (1);
 	}
-	mlx_hook(state.mlx.win_ptr, KeyPress, KeyPressMask, handle_key_down,
-		&state.keys);
+	mlx_hook(state.mlx.win_ptr, KeyPress, KeyPressMask, handle_key, &state);
 	mlx_hook(state.mlx.win_ptr, KeyRelease, KeyReleaseMask, handle_key_up,
 		&state.keys);
-	mlx_hook(state.mlx.win_ptr, DestroyNotify, StructureNotifyMask,
-		mlx_loop_end, state.mlx.ptr);
+	mlx_hook(state.mlx.win_ptr, ClientMessage, LeaveWindowMask, mlx_loop_end,
+		state.mlx.ptr);
 	mlx_loop_hook(state.mlx.ptr, loop, &state);
 	mlx_loop(state.mlx.ptr);
 	free_state(&state);

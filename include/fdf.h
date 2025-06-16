@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 10:49:46 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:19:39 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct s_mlx
 
 typedef struct s_keys
 {
-	char	escape;
 	char	w;
 	char	a;
 	char	s;
@@ -114,17 +113,18 @@ void	parse_map(const char *const file, t_map *const map);
 void	free_map(t_map *const map);
 void	init_mlx(t_mlx *const mlx);
 void	free_mlx(t_mlx *const mlx);
+void	reset_camera(t_camera *const camera, const t_vec2 size);
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size);
 void	free_camera(t_camera *const camera, void *mlx);
-void	put_image_pixel(t_image *const image, const t_vec2 point,
-			const t_color color);
+void	map_to_camera(const t_map *const map, t_camera *const camera);
+void	put_image_pixel(t_image *const image, const t_vec2 point, \
+	const t_color color);
 void	put_image_line(t_image *const image, const t_line line);
-void	draw_map(const t_map *const map, t_camera *const camera,
-			t_mlx *const mlx);
-int		handle_key_down(int keycode, t_keys *keys);
+void	render_map(const t_map *const map, t_camera *const camera, \
+	t_mlx *const mlx);
+int		handle_key(int keycode, t_state *state);
 int		handle_key_up(int keycode, t_keys *keys);
-void	handle_input(t_keys *const keys, t_camera *const camera,
-			void *const mlx);
+void	handle_movement(t_keys *const keys, t_camera *const camera);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
 

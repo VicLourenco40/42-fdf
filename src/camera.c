@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 12:06:56 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:25:54 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 #include <math.h>
 #include <stdlib.h>
+
+void	reset_camera(t_camera *const camera, const t_vec2 map_size)
+{
+	camera->position = (t_vec2f){-map_size.x / 2.0f, -map_size.y / 2.0f};
+	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
+	camera->zoom = 4.0f;
+	camera->height_scale = 1.0f;
+}
 
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 {
@@ -27,18 +35,13 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 	camera->image.ptr = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!camera->image.ptr)
 		return (free_camera(camera, mlx));
-	camera->position = (t_vec2f){-size.x / 2.0f, -size.y / 2.0f};
+	reset_camera(camera, size);
 	while (--size.x)
 		camera->points[size.x] = camera->points[0] + (size.x * size.y);
 	camera->image.data = (t_color *) mlx_get_data_addr(camera->image.ptr, \
 		&camera->image.color_depth, &camera->image.line_size, \
 		&camera->image.endian);
 	camera->image.line_size /= sizeof(t_color);
-	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), -M_PI_4};
-	camera->sin = (t_vec2f){sinf(camera->rotation.x), sinf(camera->rotation.y)};
-	camera->cos = (t_vec2f){cosf(camera->rotation.x), cosf(camera->rotation.y)};
-	camera->zoom = 12.0f;
-	camera->height_scale = 1.0f;
 }
 
 void	free_camera(t_camera *const camera, void *mlx)
@@ -69,7 +72,7 @@ static t_vec2	point_to_camera(const t_camera *const camera, t_vec3f point)
 	return (pixel);
 }
 
-static void	map_to_camera(const t_map *const map, t_camera *const camera)
+void	map_to_camera(const t_map *const map, t_camera *const camera)
 {
 	t_vec2	c;
 
@@ -81,34 +84,4 @@ static void	map_to_camera(const t_map *const map, t_camera *const camera)
 			camera->points[c.x][c.y] = point_to_camera(camera, \
 				(t_vec3f){c.x, c.y, map->points[c.x][c.y]});
 	}
-}
-
-void	draw_map(const t_map *const map, t_camera *const camera,
-	t_mlx *const mlx)
-{
-	const t_vec2	i = {ft_signf(camera->cos.y), ft_signf(camera->sin.y)};
-	t_vec2			c;
-
-	ft_bzero(camera->image.data,
-		WINDOW_HEIGHT * sizeof(t_color) * camera->image.line_size);
-	map_to_camera(map, camera);
-	c.x = (i.x < 0) * (map->size.x - 1);
-	while (c.x >= 0 && c.x < map->size.x)
-	{
-		c.y = (i.y < 0) * (map->size.y - 1);
-		while (c.y >= 0 && c.y < map->size.y)
-		{
-			if (c.x)
-				put_image_line(&camera->image, (t_line){\
-					{camera->points[c.x][c.y], camera->points[c.x - 1][c.y]}, \
-					{map->colors[c.x][c.y], map->colors[c.x - 1][c.y]}});
-			if (c.y)
-				put_image_line(&camera->image, (t_line){\
-					{camera->points[c.x][c.y], camera->points[c.x][c.y - 1]}, \
-					{map->colors[c.x][c.y], map->colors[c.x][c.y - 1]}});
-			c.y += i.y;
-		}
-		c.x += i.x;
-	}
-	mlx_put_image_to_window(mlx->ptr, mlx->win_ptr, camera->image.ptr, 0, 0);
 }
