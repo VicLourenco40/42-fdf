@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:52:41 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 10:52:17 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:32:03 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,19 @@ void	handle_input(t_keys *const keys, t_camera *const camera,
 
 	if (keys->escape)
 		mlx_loop_end(mlx);
-	camera->rotation.x += (keys->down - keys->up) * 0.01f;
-	camera->rotation.y += (keys->right - keys->left) * 0.01f;
+	camera->rotation.x = ft_clampf(\
+		camera->rotation.x + (keys->down - keys->up) * 0.01f, \
+		0.0f, M_PI_2);
+	camera->rotation.y += (keys->right - keys->left) * 0.01f + \
+		((camera->rotation.y > 2 * M_PI) * -2 * M_PI) + \
+		((camera->rotation.y < -2 * M_PI) * 2 * M_PI);
 	camera->sin = (t_vec2f){sinf(camera->rotation.x), sinf(camera->rotation.y)};
 	camera->cos = (t_vec2f){cosf(camera->rotation.x), cosf(camera->rotation.y)};
 	camera->position.x += dir.x * camera->sin.y + dir.y * camera->cos.y;
 	camera->position.y += dir.x * -camera->cos.y + dir.y * camera->sin.y;
-	camera->zoom += (keys->plus - keys->minus) * 0.1f;
-	camera->height_scale += (keys->rbracket - keys->lbracket) * 0.01f;
+	camera->zoom = ft_clampf(camera->zoom + (keys->plus - keys->minus) * 0.1f, \
+		1.0f, 50.0f);
+	camera->height_scale = ft_clampf(\
+		camera->height_scale + (keys->rbracket - keys->lbracket) * 0.01f, \
+		0.0f, 5.0f);
 }
