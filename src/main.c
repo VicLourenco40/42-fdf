@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 17:50:24 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:49:31 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 
 static int	loop(t_state *const state)
 {
-	if (state->keys.escape)
-		mlx_loop_end(state->mlx.ptr);
+	handle_input(&state->keys, &state->camera, state->mlx.ptr);
 	draw_map(&state->map, &state->camera, &state->mlx);
 	return (0);
 }

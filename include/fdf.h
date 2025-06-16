@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 17:47:43 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:04:40 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ typedef struct s_mlx
 typedef struct s_keys
 {
 	char	escape;
+	char	w;
+	char	a;
+	char	s;
+	char	d;
 }	t_keys;
 
 typedef struct s_state
@@ -111,6 +115,8 @@ void	draw_map(const t_map *const map, t_camera *const camera,
 			t_mlx *const mlx);
 int		handle_key_down(int keycode, t_keys *keys);
 int		handle_key_up(int keycode, t_keys *keys);
+void	handle_input(t_keys *const keys, t_camera *const camera,
+			void *const mlx);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
 
