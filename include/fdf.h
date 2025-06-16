@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 10:09:15 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:36:23 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct s_keys
 	char	right;
 	char	up;
 	char	down;
+	char	plus;
+	char	minus;
 }	t_keys;
 
 typedef struct s_state
