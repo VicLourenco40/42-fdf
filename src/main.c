@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 09:49:31 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:35:51 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,7 @@
 #include <mlx.h>
 
 #include <stdlib.h>
-#include <math.h>
 #include <X11/X.h>
-
-static int	loop(t_state *const state)
-{
-	handle_input(&state->keys, &state->camera, state->mlx.ptr);
-	draw_map(&state->map, &state->camera, &state->mlx);
-	return (0);
-}
 
 static bool	init_state(const char *const file, t_state *const state)
 {
@@ -39,11 +31,18 @@ static bool	init_state(const char *const file, t_state *const state)
 	return (true);
 }
 
-void	free_state(t_state *const state)
+static void	free_state(t_state *const state)
 {
 	free_map(&state->map);
 	free_camera(&state->camera, state->mlx.ptr);
 	free_mlx(&state->mlx);
+}
+
+static int	loop(t_state *const state)
+{
+	handle_input(&state->keys, &state->camera, state->mlx.ptr);
+	draw_map(&state->map, &state->camera, &state->mlx);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -65,7 +64,9 @@ int	main(int argc, char **argv)
 		&state.keys);
 	mlx_hook(state.mlx.win_ptr, KeyRelease, KeyReleaseMask, handle_key_up,
 		&state.keys);
-	mlx_loop_hook(state.mlx.ptr, loop, (void *) &state);
+	mlx_hook(state.mlx.win_ptr, DestroyNotify, StructureNotifyMask,
+		mlx_loop_end, state.mlx.ptr);
+	mlx_loop_hook(state.mlx.ptr, loop, &state);
 	mlx_loop(state.mlx.ptr);
 	free_state(&state);
 }

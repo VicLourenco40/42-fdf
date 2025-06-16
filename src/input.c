@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:52:41 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 11:32:03 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:19:54 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ void	handle_input(t_keys *const keys, t_camera *const camera,
 	if (keys->escape)
 		mlx_loop_end(mlx);
 	camera->rotation.x = ft_clampf(\
-		camera->rotation.x + (keys->down - keys->up) * 0.01f, \
+		camera->rotation.x + (keys->down - keys->up) * 0.02f, \
 		0.0f, M_PI_2);
-	camera->rotation.y += (keys->right - keys->left) * 0.01f + \
+	camera->rotation.y += (keys->right - keys->left) * 0.02f + \
 		((camera->rotation.y > 2 * M_PI) * -2 * M_PI) + \
 		((camera->rotation.y < -2 * M_PI) * 2 * M_PI);
 	camera->sin = (t_vec2f){sinf(camera->rotation.x), sinf(camera->rotation.y)};

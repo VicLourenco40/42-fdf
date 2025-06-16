@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 10:55:27 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:06:56 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 		&camera->image.color_depth, &camera->image.line_size, \
 		&camera->image.endian);
 	camera->image.line_size /= sizeof(t_color);
-	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
+	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), -M_PI_4};
 	camera->sin = (t_vec2f){sinf(camera->rotation.x), sinf(camera->rotation.y)};
 	camera->cos = (t_vec2f){cosf(camera->rotation.x), cosf(camera->rotation.y)};
 	camera->zoom = 12.0f;
@@ -61,10 +61,10 @@ static t_vec2	point_to_camera(const t_camera *const camera, t_vec3f point)
 
 	point.x += camera->position.x;
 	point.y += camera->position.y;
-	pixel.x = roundf(WINDOW_WIDTH / 2.0f + camera->zoom * \
-		(cos.y * point.y - sin.y * point.x));
-	pixel.y = roundf(WINDOW_HEIGHT / 2.0f + camera->zoom * \
-		(cos.x * (sin.y * point.y + cos.y * point.x) - \
+	pixel.x = roundf(WINDOW_WIDTH / 2.0f + \
+		camera->zoom * (cos.y * point.y - sin.y * point.x));
+	pixel.y = roundf(WINDOW_HEIGHT / 2.0f + \
+		camera->zoom * (cos.x * (sin.y * point.y + cos.y * point.x) - \
 		sin.x * point.z * camera->height_scale));
 	return (pixel);
 }
