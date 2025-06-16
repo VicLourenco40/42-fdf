@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 13:31:47 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:55:27 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	draw_map(const t_map *const map, t_camera *const camera,
 	ft_bzero(camera->image.data,
 		WINDOW_HEIGHT * sizeof(t_color) * camera->image.line_size);
 	map_to_camera(map, camera);
-	c.x = (i.x < 0) * (map->size.x - 2);
-	while ((i.x > 0 && c.x < map->size.x) || (i.x < 0 && c.x >= 0))
+	c.x = (i.x < 0) * (map->size.x - 1);
+	while (c.x >= 0 && c.x < map->size.x)
 	{
-		c.y = (i.y < 0) * (map->size.y - 2);
-		while ((i.y > 0 && c.y < map->size.y) || (i.y < 0 && c.y >= 0))
+		c.y = (i.y < 0) * (map->size.y - 1);
+		while (c.y >= 0 && c.y < map->size.y)
 		{
 			if (c.x)
 				put_image_line(&camera->image, (t_line){\
