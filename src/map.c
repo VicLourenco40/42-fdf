@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 11:24:57 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:45:10 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 static void	init_map(t_map *const map, t_vec2 size)
 {
+	if (size.x == 0 || size.y == 0)
+		return ;
 	map->points = ft_calloc(size.x, sizeof(int *));
 	map->colors = ft_calloc(size.x, sizeof(t_color *));
 	if (!map->points || !map->colors)
