@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 13:56:31 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:21:24 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 
 # include <libft.h>
 
-# define WINDOW_WIDTH	1600
-# define WINDOW_HEIGHT	900
+# ifndef WINDOW_WIDTH
+#  define WINDOW_WIDTH	1600
+# endif
+# ifndef WINDOW_HEIGHT
+#  define WINDOW_HEIGHT 900
+# endif
 
 typedef struct s_vec2
 {
