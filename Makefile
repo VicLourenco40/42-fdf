@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 14:12:14 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/17 12:19:34 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/17 13:29:02 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJ = main.o utils.o state.o map.o mlx.o image.o camera.o input.o overlay.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
 LFTDIR = libft/
 LFT = $(patsubst %, $(LFTDIR)%, libft.a)
-MLXDIR = minilibx/
+MLXDIR = ~/git/minilibx/
 MLX = $(patsubst %, $(MLXDIR)%, libmlx.a)
 MLXFLAGS = -lXext -lX11
 
