@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 12:29:17 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:22:00 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 void	reset_camera(t_camera *const camera, const t_vec2 map_size)
 {
 	camera->position = (t_vec2f){-map_size.x / 2.0f, -map_size.y / 2.0f};
-	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
-	camera->zoom = 4.0f;
-	camera->height = 1.0f;
+	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), -M_PI_4};
 }
 
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
@@ -42,6 +40,8 @@ void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
 		&camera->image.color_depth, &camera->image.line_size, \
 		&camera->image.endian);
 	camera->image.line_size /= sizeof(t_color);
+	camera->zoom = 4.0f;
+	camera->height = 0.5f;
 }
 
 void	free_camera(t_camera *const camera, void *mlx)

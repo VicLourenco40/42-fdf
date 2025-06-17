@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:28:00 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 12:26:01 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:11:51 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 static void	get_map_desc(char *desc, const char *const file,
 	const t_vec2 size)
 {
-	desc += ft_strlcpy(desc, file, 288);
+	if (ft_strchr(file, '/'))
+		desc += ft_strlcpy(desc, ft_strrchr(file, '/') + 1, 288);
+	else
+		desc += ft_strlcpy(desc, file, 288);
 	desc += ft_strlcpy(desc, " (", 288);
 	desc += ft_itoa_cpy(desc, size.x);
 	desc += ft_strlcpy(desc, "x", 288);
