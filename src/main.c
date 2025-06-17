@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 11:29:28 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:39:01 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 {
 	t_state	state;
 
-	if (argc < 2)
+	if (argc != 2)
 	{
 		ft_putstr_fd("usage: fdf <file>\n", 1);
 		return (1);
