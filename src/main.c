@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:24:01 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 17:19:32 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:50:01 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void	free_state(t_state *const state)
 static int	loop(t_state *const state)
 {
 	handle_movement(&state->keys, &state->camera);
+	clear_image(&state->camera.image);
+	map_to_camera(&state->map, &state->camera);
 	render_map(&state->map, &state->camera, &state->mlx);
 	return (0);
 }

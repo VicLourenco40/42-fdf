@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:41:59 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/13 13:32:15 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:51:44 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ void	put_image_line(t_image *const image, const t_line line)
 		put_image_pixel(image, point,
 			color_lerp(line.colors[0], line.colors[1], (float)i / steps));
 	}
+}
+
+void	clear_image(t_image *const image)
+{
+	ft_bzero(image->data, WINDOW_HEIGHT * sizeof(t_color) * image->line_size);
 }

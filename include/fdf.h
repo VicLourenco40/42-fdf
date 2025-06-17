@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 17:19:39 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:51:47 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	map_to_camera(const t_map *const map, t_camera *const camera);
 void	put_image_pixel(t_image *const image, const t_vec2 point, \
 	const t_color color);
 void	put_image_line(t_image *const image, const t_line line);
+void	clear_image(t_image *const image);
 void	render_map(const t_map *const map, t_camera *const camera, \
 	t_mlx *const mlx);
 int		handle_key(int keycode, t_state *state);
