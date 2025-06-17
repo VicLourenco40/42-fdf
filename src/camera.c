@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 13:22:00 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:59:14 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 void	reset_camera(t_camera *const camera, const t_vec2 map_size)
 {
-	camera->position = (t_vec2f){-map_size.x / 2.0f, -map_size.y / 2.0f};
+	camera->position = (t_vec2f){
+		-(map_size.x - 1) / 2.0f, -(map_size.y - 1) / 2.0f};
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), -M_PI_4};
 }
 
