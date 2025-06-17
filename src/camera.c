@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:13:31 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 17:25:54 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:29:17 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	reset_camera(t_camera *const camera, const t_vec2 map_size)
 	camera->position = (t_vec2f){-map_size.x / 2.0f, -map_size.y / 2.0f};
 	camera->rotation = (t_vec2f){asinf(tanf(M_PI / 6)), M_PI_4};
 	camera->zoom = 4.0f;
-	camera->height_scale = 1.0f;
+	camera->height = 1.0f;
 }
 
 void	init_camera(t_camera *const camera, void *mlx, t_vec2 size)
@@ -68,7 +68,7 @@ static t_vec2	point_to_camera(const t_camera *const camera, t_vec3f point)
 		camera->zoom * (cos.y * point.y - sin.y * point.x));
 	pixel.y = roundf(WINDOW_HEIGHT / 2.0f + \
 		camera->zoom * (cos.x * (sin.y * point.y + cos.y * point.x) - \
-		sin.x * point.z * camera->height_scale));
+		sin.x * point.z * camera->height));
 	return (pixel);
 }
 

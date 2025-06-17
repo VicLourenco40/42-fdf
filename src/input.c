@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:52:41 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/16 17:28:12 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:29:34 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	handle_movement(t_keys *const keys, t_camera *const camera)
 	camera->zoom = ft_clampf(\
 		camera->zoom + (keys->plus - keys->minus) * camera->zoom * 0.01f, \
 		1.0f, 50.0f);
-	camera->height_scale = ft_clampf(\
-		camera->height_scale + (keys->rbracket - keys->lbracket) * 0.01f, \
+	camera->height = ft_clampf(\
+		camera->height + (keys->rbracket - keys->lbracket) * 0.01f, \
 		0.0f, 5.0f);
 }
 

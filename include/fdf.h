@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:28:33 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 09:51:47 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:28:22 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_camera
 	t_vec2f	sin;
 	t_vec2f	cos;
 	float	zoom;
-	float	height_scale;
+	float	height;
 	t_vec2	**points;
 	t_image	image;
 }	t_camera;
@@ -105,10 +105,13 @@ typedef struct s_state
 {
 	t_mlx		mlx;
 	t_map		map;
+	char		map_desc[288];
 	t_camera	camera;
 	t_keys		keys;
 }	t_state;
 
+bool	init_state(const char *const file, t_state *const state);
+void	free_state(t_state *const state);
 void	parse_map(const char *const file, t_map *const map);
 void	free_map(t_map *const map);
 void	init_mlx(t_mlx *const mlx);
@@ -121,11 +124,12 @@ void	put_image_pixel(t_image *const image, const t_vec2 point, \
 	const t_color color);
 void	put_image_line(t_image *const image, const t_line line);
 void	clear_image(t_image *const image);
-void	render_map(const t_map *const map, t_camera *const camera, \
-	t_mlx *const mlx);
+void	render_map(const t_mlx *const mlx, const t_map *const map, \
+	t_camera *const camera);
 int		handle_key(int keycode, t_state *state);
 int		handle_key_up(int keycode, t_keys *keys);
 void	handle_movement(t_keys *const keys, t_camera *const camera);
+void	render_overlay(const t_mlx *const mlx, const char *const map_desc);
 t_list	*get_file_lines(const char *const file);
 int		count_str_values(const char *str, const char delim);
 

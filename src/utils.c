@@ -6,11 +6,10 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:22:39 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/12 16:21:30 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:28:58 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fdf.h>
 #include <libft.h>
 
 #include <stdlib.h>
