@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 14:12:14 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/17 14:25:52 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/18 10:42:42 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,9 @@ IDIR = include/
 ODIR = obj/
 OBJ = main.o utils.o state.o map.o mlx.o image.o camera.o input.o overlay.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
-BOBJS = $(patsubst %.o, %_bonus.o, $(OBJS))
 LFTDIR = libft/
 LFT = $(patsubst %, $(LFTDIR)%, libft.a)
-MLXDIR = ~/git/minilibx/
+MLXDIR = minilibx/
 MLX = $(patsubst %, $(MLXDIR)%, libmlx.a)
 MLXFLAGS = -lXext -lX11
 OLEVEL = 0
@@ -39,22 +38,17 @@ clean:
 	make $@ -C $(LFTDIR)
 
 fclean: clean
-	rm -fr $(NAME) bonus
+	rm -fr $(NAME)
 	make $@ -C $(LFTDIR)
 
 re: fclean all
 
 $(NAME): $(OBJS) $(LFT) $(MLX)
-	rm -f bonus
 	$(CC) $(CFLAGS) $(MLXFLAGS) -lm -o $@ $^
 
-$(OBJS) $(BOBJS): $(ODIR)%.o: $(SDIR)%.c
+$(OBJS): $(ODIR)%.o: $(SDIR)%.c
 	mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(LFT):
 	make -C $(LFTDIR)
-
-bonus: $(BOBJS) $(LFT) $(MLX)
-	$(CC) $(CFLAGS) $(MLXFLAGS) -lm -o $(NAME) $^
-	touch $@
