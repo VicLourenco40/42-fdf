@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:59:48 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/17 14:45:41 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:38:45 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,20 @@ void	free_map(t_map *const map)
 	ft_bzero(map, sizeof(t_map));
 }
 
-static void	parse_line(const char *line, int *points, t_color *colors)
+static void	parse_line(const char *line, int *const points,
+	t_color *const colors)
 {
 	bool	in_delim;
+	int		i;
 
 	in_delim = true;
+	i = 0;
 	while (*line && *line != '\n')
 	{
 		if (in_delim && *line != ' ')
-			*points++ = ft_atoi(line);
+			points[i++] = ft_atoi(line);
 		if (ft_strnstr(line, ",0x", 3) || ft_strnstr(line, ",0X", 3))
-			*(int *)colors++ = ft_atoi_hex(line + 3);
+			((int *)colors)[i - 1] = ft_atoi_hex(line + 3);
 		in_delim = *line == ' ';
 		line++;
 	}
